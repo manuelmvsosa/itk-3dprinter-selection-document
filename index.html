@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
+<meta content="Evaluación detallada de impresora 3D para materiales técnicos — Intelektron" name="description"/>
+<meta content="light dark" name="color-scheme"/>
+<title>Evaluación de Impresora 3D para Materiales Técnicos — Informe Detallado</title>
+<style>
+:root{
+  color-scheme: light dark;
+  --bg:#f4f6f8; --surface:#ffffff; --surface-2:#f8fafc; --text:#18212b; --muted:#5e6a76;
+  --line:#dfe5eb; --line-strong:#c9d2dc; --accent:#0f5f7a; --accent-2:#0b7893; --accent-soft:#e8f3f6;
+  --good:#1d6b4f; --warn:#8a5a13; --shadow:0 8px 28px rgba(16,34,50,.08);
+  --sidebar:260px; --topbar:58px; --radius:14px; --sticky1:48px; --sticky2:128px;
+}
+html[data-theme="dark"]{
+  --bg:#0f1419; --surface:#151c23; --surface-2:#19222b; --text:#e7edf2; --muted:#9facb8;
+  --line:#2b3741; --line-strong:#3b4a56; --accent:#67bfd5; --accent-2:#84d4e6; --accent-soft:#17313a;
+  --good:#80c9ad; --warn:#e2b367; --shadow:0 8px 28px rgba(0,0,0,.28);
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth;max-width:100%;overflow-x:hidden} body{margin:0;max-width:100%;overflow-x:hidden;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.58;font-size:15px}
+a{color:var(--accent-2);text-decoration-thickness:1px;text-underline-offset:2px} a:hover{text-decoration-thickness:2px}
+.progress{position:fixed;z-index:90;top:0;left:0;height:3px;background:var(--accent-2);width:0%;transition:width .08s linear}
+.topbar{position:fixed;z-index:80;top:0;left:0;right:0;height:var(--topbar);display:flex;align-items:center;gap:14px;padding:0 18px;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.brand{font-weight:750;letter-spacing:-.015em;white-space:nowrap}.brand small{font-weight:500;color:var(--muted);margin-left:8px}.top-spacer{flex:1}
+.icon-btn,.menu-btn{height:38px;min-width:38px;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:10px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font:inherit}.icon-btn:hover,.menu-btn:hover{border-color:var(--line-strong);background:var(--surface-2)}
+.menu-btn{display:none}.search-wrap{position:relative;max-width:360px;width:min(34vw,360px)}.search{width:100%;height:38px;border:1px solid var(--line);background:var(--surface-2);color:var(--text);border-radius:10px;padding:0 38px 0 12px;outline:none}.search:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 15%,transparent)}.kbd{position:absolute;right:9px;top:9px;font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:5px;padding:1px 5px}
+.search-results{display:none;position:absolute;top:44px;right:0;left:0;max-height:360px;overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:6px}.search-results.open{display:block}.search-hit{display:block;padding:9px 10px;border-radius:8px;color:var(--text);text-decoration:none;font-size:13px}.search-hit:hover{background:var(--surface-2)}.search-hit strong{display:block;font-size:12px;color:var(--accent)}
+.sidebar{position:fixed;z-index:70;top:var(--topbar);left:0;bottom:0;width:var(--sidebar);background:var(--surface);border-right:1px solid var(--line);padding:20px 14px;overflow:auto}.sidebar-title{font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);font-weight:750;padding:0 9px 10px}.nav-link{display:block;color:var(--muted);text-decoration:none;padding:7px 9px;margin:1px 0;border-radius:8px;font-size:13px;line-height:1.35}.nav-link:hover{background:var(--surface-2);color:var(--text)}.nav-link.active{background:var(--accent-soft);color:var(--accent);font-weight:700}
+.meta-card{margin:20px 9px 0;padding-top:14px;border-top:1px solid var(--line);font-size:11px;color:var(--muted);display:grid;gap:5px}
+.main{margin-left:var(--sidebar);padding:calc(var(--topbar) + 28px) clamp(18px,4vw,58px) 70px}.article{max-width:1480px;margin:0 auto}
+.hero{margin-bottom:30px;padding:clamp(22px,4vw,42px);border:1px solid var(--line);background:linear-gradient(135deg,var(--surface),var(--surface-2));border-radius:18px;box-shadow:var(--shadow)}.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:800}.hero h1{font-size:clamp(28px,4vw,46px);line-height:1.08;letter-spacing:-.035em;margin:8px 0 10px}.hero p{margin:0;color:var(--muted);font-size:clamp(14px,1.4vw,17px)}.hero-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.badge{display:inline-flex;gap:6px;align-items:center;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 10px;color:var(--muted);font-size:12px}
+.doc-section{scroll-margin-top:78px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:clamp(20px,3vw,34px);margin:0 0 24px;box-shadow:0 2px 10px rgba(16,34,50,.03)}
+h1,h2,h3{line-height:1.22;letter-spacing:-.02em;position:relative} .doc-section>h1{font-size:clamp(23px,2.5vw,31px);margin:0 0 22px;padding-bottom:14px;border-bottom:1px solid var(--line)} h2{font-size:clamp(18px,1.8vw,23px);margin:30px 0 12px}h3{font-size:16px;margin:24px 0 9px;color:color-mix(in srgb,var(--text) 90%,var(--accent))}
+p{margin:10px 0 14px}strong{font-weight:740}.copy-anchor{opacity:0;margin-left:7px;border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:.7em;vertical-align:middle}.anchored-heading:hover .copy-anchor,.copy-anchor:focus{opacity:1}
+blockquote{margin:18px 0;padding:13px 16px;border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0;color:var(--text)}
+ul,ol{padding-left:24px}.feature-grid{list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,250px));justify-content:start;gap:9px;margin:14px 0 20px}.feature-grid li{min-height:58px;padding:9px 11px;background:color-mix(in srgb,var(--accent-soft) 72%,var(--surface));border:1px solid color-mix(in srgb,var(--accent) 22%,var(--line));border-radius:10px;margin:0;display:flex;align-items:center;justify-content:center;text-align:center;font-size:.91em;line-height:1.35}
+.material-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:16px 0 22px}.material-card{min-height:130px;padding:16px 14px;border:1px solid color-mix(in srgb,var(--accent) 28%,var(--line));border-radius:12px;background:linear-gradient(180deg,color-mix(in srgb,var(--accent-soft) 72%,var(--surface)),var(--surface));display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}.material-card-title{font-weight:800;font-size:14px;color:var(--accent);text-decoration:none}.material-card-title:hover{text-decoration:underline}.material-card-desc{margin-top:8px;color:var(--text);font-size:12.5px;line-height:1.4}.material-card-desc p{margin:0}
+.process-flow{display:flex;gap:8px;overflow-x:auto;padding:6px 2px 16px;margin:12px 0 24px;scroll-snap-type:x proximity}.flow-step{flex:0 0 auto;display:flex;align-items:center;gap:8px;min-width:150px;max-width:210px;padding:9px 12px;background:var(--surface-2);border:1px solid var(--line);border-radius:11px;scroll-snap-align:start}.flow-num{width:24px;height:24px;border-radius:50%;display:inline-grid;place-items:center;background:var(--accent-soft);color:var(--accent);font-weight:800;font-size:11px}.flow-label{font-size:12px;font-weight:650;line-height:1.25}
+.table-block{margin:18px 0 26px;border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:visible}.table-meta{font-size:11px;color:var(--muted);padding:8px 12px;border-bottom:1px solid var(--line);background:var(--surface-2);border-radius:12px 12px 0 0}.table-toolbar{position:sticky;z-index:25;top:var(--topbar);display:flex;align-items:center;gap:10px;justify-content:space-between;padding:8px 10px;background:color-mix(in srgb,var(--surface) 96%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}.preset-group{display:flex;gap:5px;flex-wrap:wrap}.preset-btn,.columns-menu summary{font:inherit;font-size:12px;border:1px solid var(--line);background:var(--surface-2);color:var(--text);border-radius:8px;padding:6px 9px;cursor:pointer}.preset-btn.active{background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 45%,var(--line));color:var(--accent);font-weight:700}.columns-menu{position:relative;margin-left:auto}.columns-menu summary{list-style:none}.columns-menu summary::-webkit-details-marker{display:none}.columns-grid{position:absolute;z-index:50;right:0;top:38px;width:min(420px,85vw);max-height:400px;overflow:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px;padding:8px;background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow)}.column-toggle{display:flex;align-items:flex-start;gap:7px;padding:6px 7px;border-radius:7px;font-size:12px;line-height:1.3}.column-toggle:hover{background:var(--surface-2)}.column-toggle input{margin-top:2px;accent-color:var(--accent)}
+.table-scroll{overflow:auto;max-width:100%;overscroll-behavior-inline:contain;scrollbar-gutter:stable;position:relative}.data-table{border-collapse:separate;border-spacing:0;width:max-content;min-width:100%;font-size:11.4px;line-height:1.38}.data-table th,.data-table td{padding:7px 9px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);vertical-align:top;max-width:360px}.data-table th{position:sticky;top:0;z-index:12;background:var(--surface-2);font-weight:750;text-align:left;white-space:nowrap}.data-table tr:last-child td{border-bottom:0}.data-table th:last-child,.data-table td:last-child{border-right:0}.data-table tbody tr:hover td{background:color-mix(in srgb,var(--accent-soft) 35%,var(--surface))}.data-table [data-hidden="true"]{display:none!important}
+.data-table th.sticky-col,.data-table td.sticky-col{position:sticky;z-index:15;background:var(--surface)}.master-materials-table th:nth-child(1),.master-materials-table td:nth-child(1){max-width:92px}.master-materials-table th:nth-child(2),.master-materials-table td:nth-child(2){max-width:150px;white-space:normal}.compact-identity-table th:first-child,.compact-identity-table td:first-child{width:190px;min-width:190px;max-width:190px;white-space:normal;line-height:1.28}.cost-table th:first-child,.cost-table td:first-child{width:175px;min-width:175px;max-width:175px}.data-table th.sticky-col{z-index:20;background:var(--surface-2)}.data-table .sticky-divider{box-shadow:4px 0 6px -5px rgba(20,38,52,.65)}
+.table-scroll:focus{outline:3px solid color-mix(in srgb,var(--accent) 20%,transparent);outline-offset:2px}.table-hint{display:none}
+mark.search-mark{background:#ffe28a;color:#1b1b1b;border-radius:2px;padding:0 1px}
+.to-top{position:fixed;z-index:65;right:18px;bottom:18px;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--text);box-shadow:var(--shadow);cursor:pointer;opacity:0;pointer-events:none;transition:opacity .15s,transform .15s}.to-top.show{opacity:1;pointer-events:auto}.to-top:hover{transform:translateY(-2px)}
+.toast{position:fixed;z-index:120;left:50%;bottom:24px;transform:translate(-50%,12px);opacity:0;background:var(--text);color:var(--surface);padding:8px 12px;border-radius:8px;font-size:12px;transition:.18s;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:980px){:root{--sidebar:0px}.sidebar{transform:translateX(-102%);width:min(310px,88vw);box-shadow:var(--shadow);transition:transform .2s}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.menu-btn{display:inline-flex}.brand small{display:none}.search-wrap{width:min(45vw,320px)}}
+@media(max-width:680px){:root{--topbar:104px}body{font-size:14px}.topbar{height:var(--topbar);padding:8px 10px;gap:7px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-rows:38px 42px;align-content:center}.menu-btn{grid-column:1;grid-row:1}.brand{grid-column:2;grid-row:1;font-size:13px;min-width:0;overflow:hidden;text-overflow:ellipsis}.top-spacer{display:none}.icon-btn{grid-column:3;grid-row:1}.search-wrap{position:static;grid-column:1 / -1;grid-row:2;width:100%!important;max-width:none;min-width:0}.search{padding-right:10px;min-width:0}.kbd{display:none}.search-results{position:fixed;top:calc(var(--topbar) - 2px);left:8px;right:8px}.main{padding:calc(var(--topbar) + 14px) 10px 54px}.hero{border-radius:14px;padding:20px}.hero h1{font-size:28px}.doc-section{padding:17px 14px;border-radius:12px;margin-bottom:14px}.doc-section>h1{font-size:22px}.feature-grid{grid-template-columns:repeat(2,minmax(0,1fr));justify-content:stretch}.material-cards{grid-template-columns:1fr;gap:9px}.material-card{min-height:100px;padding:13px}.table-toolbar{top:var(--topbar);align-items:flex-start}.preset-group{display:grid;grid-template-columns:repeat(3,auto)}.preset-btn{padding:6px 7px}.columns-grid{position:fixed;top:calc(var(--topbar) + 8px);left:8px;right:8px;width:auto;max-height:65vh;grid-template-columns:1fr;background:var(--surface)}.data-table{font-size:10.9px}.data-table th,.data-table td{padding:6px 7px;max-width:220px}.compact-identity-table th:first-child,.compact-identity-table td:first-child{width:145px;min-width:145px;max-width:145px}.cost-table th:first-child,.cost-table td:first-child{width:138px;min-width:138px;max-width:138px}.master-materials-table th:nth-child(1),.master-materials-table td:nth-child(1){max-width:76px}.master-materials-table th:nth-child(2),.master-materials-table td:nth-child(2){max-width:128px}.table-block{margin-left:-4px;margin-right:-4px}.table-meta::after{content:" · Deslice horizontalmente"}.copy-anchor{opacity:.5}}
+@media(max-width:430px){.feature-grid{grid-template-columns:1fr}.brand{max-width:130px;overflow:hidden;text-overflow:ellipsis}.preset-group{grid-template-columns:repeat(2,auto)}.preset-btn[data-preset="process"],.preset-btn[data-preset="procurement"]{display:none}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+@media print{.progress,.topbar,.sidebar,.table-toolbar,.copy-anchor,.to-top,.toast{display:none!important}.main{margin:0;padding:0}.article{max-width:none}.hero,.doc-section{box-shadow:none;border-color:#bbb;break-inside:auto}.table-scroll{overflow:visible}.data-table{width:100%;font-size:8pt}.data-table th,.data-table td{position:static!important;display:table-cell!important;max-width:none;padding:4px}.data-table [data-hidden="true"]{display:table-cell!important}.doc-section{page-break-before:auto}a{color:#000;text-decoration:underline}}
+</style>
+<style>
+/* === Review 3: visual hierarchy, cards and smarter table wrapping === */
+:root{
+  --metal-gold:#9b7620; --metal-gold-bg:#f7f0d8; --metal-gold-line:#d7b75e;
+  --metal-silver:#66717c; --metal-silver-bg:#eef1f4; --metal-silver-line:#b9c1c9;
+  --metal-bronze:#8b5a36; --metal-bronze-bg:#f4e8de; --metal-bronze-line:#c8946d;
+}
+[data-theme="dark"]{
+  --metal-gold:#e3c66d; --metal-gold-bg:#2c281b; --metal-gold-line:#76632e;
+  --metal-silver:#d0d6dc; --metal-silver-bg:#252b31; --metal-silver-line:#58636e;
+  --metal-bronze:#d9a47d; --metal-bronze-bg:#2e251f; --metal-bronze-line:#77513a;
+}
+
+/* Podium */
+.podium-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:14px 0 22px}
+.podium-card{border:1px solid;border-radius:14px;padding:14px 15px;min-height:132px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 5px 18px rgba(20,38,52,.06)}
+.podium-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.podium-rank{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:850;font-size:13px;border:1px solid currentColor}
+.podium-score{font-size:22px;font-weight:850;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.podium-title{font-weight:800;font-size:14px;line-height:1.25;margin-bottom:7px}
+.podium-desc{font-size:12px;line-height:1.35;opacity:.88}
+.podium-gold{color:var(--metal-gold);background:var(--metal-gold-bg);border-color:var(--metal-gold-line)}
+.podium-silver{color:var(--metal-silver);background:var(--metal-silver-bg);border-color:var(--metal-silver-line)}
+.podium-bronze{color:var(--metal-bronze);background:var(--metal-bronze-bg);border-color:var(--metal-bronze-line)}
+.podium-title,.podium-desc{color:var(--text)}
+
+/* Finalists: intentionally lower visual weight than podium */
+.finalist-grid{list-style:none;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0 20px}
+.finalist-card{min-height:48px;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:var(--surface-2);display:flex;align-items:center;justify-content:flex-start;text-align:left;font-size:11.5px;line-height:1.25}
+
+/* Objective 2.2 */
+.objective-grid{list-style:none;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0 20px}
+.objective-card{min-height:54px;padding:9px 11px;border-radius:10px;background:color-mix(in srgb,var(--accent-soft) 62%,var(--surface));border:1px solid color-mix(in srgb,var(--accent) 18%,var(--line));display:flex;align-items:center;text-align:left;font-size:12px;line-height:1.3}
+
+/* Informational cards: explanatory content reads better left aligned */
+.info-card-grid{grid-template-columns:repeat(auto-fit,minmax(180px,250px))}
+.feature-grid .info-card{justify-content:flex-start;text-align:left;align-items:center;font-size:.89em;line-height:1.32;padding:9px 11px}
+.matrix-type-grid{grid-template-columns:repeat(2,minmax(220px,320px));gap:10px}
+.matrix-type-grid .info-card{min-height:64px}
+
+/* Tables: wrap at natural word boundaries, avoid overly tall fragmented rows */
+.smart-wrap-table th,.smart-wrap-table td{white-space:normal;overflow-wrap:break-word;word-break:normal;hyphens:auto;line-height:1.30}
+.smart-wrap-table th{vertical-align:middle}
+.smart-wrap-table td{vertical-align:top}
+.smart-wrap-table a{overflow-wrap:break-word;word-break:normal}
+.identity-subline{font-weight:650;opacity:.88}
+.two-line-identity-table th:first-child,.two-line-identity-table td:first-child{width:160px;min-width:160px;max-width:160px;line-height:1.22}
+.requirements-table th:nth-child(1),.requirements-table td:nth-child(1){min-width:205px;max-width:235px}
+.requirements-table th:nth-child(2),.requirements-table td:nth-child(2){min-width:150px;max-width:185px}
+.requirements-table th:nth-child(3),.requirements-table td:nth-child(3){min-width:165px;max-width:215px}
+.compatibility-table th:first-child,.compatibility-table td:first-child{width:170px;min-width:170px;max-width:170px;line-height:1.22}
+.compatibility-table th:last-child,.compatibility-table td:last-child{min-width:260px;max-width:330px}
+
+@media(max-width:900px){
+  .podium-grid{grid-template-columns:1fr;gap:8px}
+  .podium-card{min-height:0;padding:12px 13px}
+  .podium-head{margin-bottom:6px}
+  .finalist-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .objective-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:680px){
+  .podium-card{border-radius:11px}
+  .podium-score{font-size:19px}
+  .podium-title{font-size:13px}
+  .podium-desc{font-size:11.5px}
+  .finalist-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  .finalist-card{font-size:10.8px;padding:7px 8px;min-height:45px}
+  .objective-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  .objective-card{font-size:11px;padding:8px;min-height:48px}
+  .matrix-type-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  .matrix-type-grid .info-card{min-height:56px;font-size:10.8px;padding:8px}
+  .smart-wrap-table th,.smart-wrap-table td{hyphens:none;overflow-wrap:break-word}
+  .two-line-identity-table th:first-child,.two-line-identity-table td:first-child{width:130px;min-width:130px;max-width:130px}
+  .requirements-table th:nth-child(1),.requirements-table td:nth-child(1){min-width:180px;max-width:200px}
+  .requirements-table th:nth-child(2),.requirements-table td:nth-child(2){min-width:135px;max-width:160px}
+  .requirements-table th:nth-child(3),.requirements-table td:nth-child(3){min-width:155px;max-width:190px}
+  .compatibility-table th:first-child,.compatibility-table td:first-child{width:140px;min-width:140px;max-width:140px}
+  .compatibility-table th:last-child,.compatibility-table td:last-child{min-width:230px;max-width:280px}
+}
+@media(max-width:430px){
+  .finalist-grid,.objective-grid{grid-template-columns:1fr 1fr}
+  .matrix-type-grid{grid-template-columns:1fr 1fr}
+}
+</style></head>
+<body>
+<div class="progress" id="progress"></div>
+<header class="topbar">
+<button aria-label="Abrir navegación" class="menu-btn" id="menuToggle" type="button">☰</button>
+<div class="brand">Intelektron <small>Evaluación 3D · Detallado</small></div>
+<div class="top-spacer"></div>
+<div class="search-wrap"><input aria-label="Buscar en el informe" class="search" id="search" placeholder="Buscar en el informe…" type="search"/><span class="kbd">Ctrl K</span><div class="search-results" id="searchResults"></div></div>
+<button aria-label="Cambiar tema" class="icon-btn" id="themeToggle" type="button">◐</button>
+</header>
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-title">Contenido</div>
+<nav><a class="nav-link" data-target="1-resumen-ejecutivo" href="#1-resumen-ejecutivo">1. Resumen ejecutivo</a><a class="nav-link" data-target="2-contexto-y-objetivo" href="#2-contexto-y-objetivo">2. Contexto y objetivo</a><a class="nav-link" data-target="3-casos-de-uso-de-referencia" href="#3-casos-de-uso-de-referencia">3. Casos de uso de referencia</a><a class="nav-link" data-target="4-metodologia-y-logica-de-reduccion" href="#4-metodologia-y-logica-de-reduccion">4. Metodología y lógica de reducción</a><a class="nav-link" data-target="5-matriz-maestra-de-materiales-tecnicos" href="#5-matriz-maestra-de-materiales-tecnicos">5. Matriz maestra de materiales técnicos</a><a class="nav-link" data-target="6-preseleccion-de-materiales-prioritarios" href="#6-preseleccion-de-materiales-prioritarios">6. Preselección de materiales prioritarios</a><a class="nav-link" data-target="7-requerimientos-derivados-para-la-impresora" href="#7-requerimientos-derivados-para-la-impresora">7. Requerimientos derivados para la impresora</a><a class="nav-link" data-target="8-preseleccion-tecnica-de-10-impresoras" href="#8-preseleccion-tecnica-de-10-impresoras">8. Preselección técnica de 10 impresoras</a><a class="nav-link" data-target="9-configuraciones-finales-evaluadas" href="#9-configuraciones-finales-evaluadas">9. Configuraciones finales evaluadas</a><a class="nav-link" data-target="10-criterios-escala-y-reglas-de-puntuacion" href="#10-criterios-escala-y-reglas-de-puntuacion">10. Criterios, escala y reglas de puntuación</a><a class="nav-link" data-target="11-matriz-ponderada-final" href="#11-matriz-ponderada-final">11. Matriz ponderada final</a><a class="nav-link" data-target="12-factibilidad-tecnico-economica" href="#12-factibilidad-tecnico-economica">12. Factibilidad técnico-económica</a><a class="nav-link" data-target="13-resultados-e-interpretacion" href="#13-resultados-e-interpretacion">13. Resultados e interpretación</a><a class="nav-link" data-target="14-conclusiones" href="#14-conclusiones">14. Conclusiones</a><a class="nav-link" data-target="15-consideraciones-previas-a-una-eventual-adquisicion" href="#15-consideraciones-previas-a-una-eventual-adquisicion">15. Consideraciones previas a una eventual adquisición</a></nav>
+<div class="meta-card"><span><strong>Versión</strong> v0</span><span><strong>Referencia</strong> 29/09/2026</span><span>Informe técnico detallado</span></div>
+</aside>
+<main class="main">
+<article class="article">
+<section class="hero">
+<div class="eyebrow">Informe Detallado · Intelektron</div>
+<h1>Evaluación de Impresora 3D para Materiales Técnicos</h1>
+<p>Investigación técnica y económica para ampliar las capacidades de fabricación aditiva de Intelektron con materiales de ingeniería.</p>
+<div class="hero-meta"><span class="badge">Versión v0</span><span class="badge">Referencia 29/09/2026</span><span class="badge">15 secciones visibles</span><span class="badge">Optimizado para PC y móvil</span></div>
+</section>
+<div class="article-root"><section class="doc-section" data-section="1-resumen-ejecutivo"><h1 class="anchored-heading" id="1-resumen-ejecutivo">1. Resumen ejecutivo<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="1-resumen-ejecutivo" type="button">#</button></h1><p>Intelektron dispone actualmente de una <strong>Bambu Lab X1 Carbon Combo</strong> y cinco <strong>Prusa MK3.5S</strong>, utilizadas principalmente con PETG y, en menor medida, FLEX y ABS. El objetivo de este estudio no es reemplazar esa infraestructura, sino <strong>ampliar las capacidades disponibles hacia materiales técnicos y de ingeniería</strong>, especialmente para aplicaciones que requieran mayor resistencia mecánica, mejor comportamiento térmico, resistencia UV/intemperie y, cuando resulte útil, impresión multicolor o multimaterial.</p><p>Para evitar seleccionar primero una máquina y justificarla después, el estudio se desarrolló en sentido inverso:</p><div aria-label="Flujo metodológico" class="process-flow"><div class="flow-step"><span class="flow-num">1</span><span class="flow-label">casos de uso reales</span></div><div class="flow-step"><span class="flow-num">2</span><span class="flow-label">propiedades necesarias</span></div><div class="flow-step"><span class="flow-num">3</span><span class="flow-label">20 materiales investigados</span></div><div class="flow-step"><span class="flow-num">4</span><span class="flow-label">8 materiales preseleccionados</span></div><div class="flow-step"><span class="flow-num">5</span><span class="flow-label">3 materiales prioritarios de referencia</span></div><div class="flow-step"><span class="flow-num">6</span><span class="flow-label">requerimientos derivados para la impresora</span></div><div class="flow-step"><span class="flow-num">7</span><span class="flow-label">10 impresoras preseleccionadas</span></div><div class="flow-step"><span class="flow-num">8</span><span class="flow-label">6 configuraciones finalistas</span></div><div class="flow-step"><span class="flow-num">9</span><span class="flow-label">matriz ponderada</span></div><div class="flow-step"><span class="flow-num">10</span><span class="flow-label">factibilidad económica</span></div><div class="flow-step"><span class="flow-num">11</span><span class="flow-label">resultados y conclusiones</span></div></div><p>Los tres materiales finalmente utilizados como referencias para evaluar las impresoras fueron:</p><ol>
+<li><strong>Prusament ASA</strong> — representa exterior, UV, estética y disponibilidad de colores.</li>
+<li><strong>Prusament PC Blend Carbon Fiber (PCCF)</strong> — representa alta rigidez, estabilidad dimensional, temperatura y exigencia sobre componentes abrasivos.</li>
+<li><strong>PrintaLot PC</strong> — representa PC técnico de altas prestaciones con disponibilidad nacional.</li>
+</ol><p>Las seis configuraciones finalistas fueron:</p><ul class="finalist-grid">
+<li class="finalist-card"><strong>Bambu Lab H2D Combo + AMS</strong></li>
+<li class="finalist-card"><strong>Bambu Lab H2S Combo + AMS</strong></li>
+<li class="finalist-card"><strong>Prusa CORE One+ Gen 2 + INDX 4 Tools</strong></li>
+<li class="finalist-card"><strong>Prusa CORE One L+ + INDX 4 Tools</strong></li>
+<li class="finalist-card"><strong>QIDI Plus5 + QIDI Box</strong></li>
+<li class="finalist-card"><strong>Flashforge Creator 5 Pro</strong></li>
+</ul><p>La matriz ponderada actual sitúa en las tres primeras posiciones a:</p><div aria-label="Tres alternativas mejor posicionadas" class="podium-grid"><article class="podium-card podium-gold"><div class="podium-head"><span class="podium-rank">1</span><span class="podium-score">88,8</span></div><div class="podium-title">Bambu Lab H2D Combo + AMS</div><div class="podium-desc">Integración y multimaterial independiente</div></article><article class="podium-card podium-silver"><div class="podium-head"><span class="podium-rank">2</span><span class="podium-score">88,4</span></div><div class="podium-title">Bambu Lab H2S Combo + AMS</div><div class="podium-desc">Ecosistema Bambu con menor inversión</div></article><article class="podium-card podium-bronze"><div class="podium-head"><span class="podium-rank">3</span><span class="podium-score">87,6</span></div><div class="podium-title">Prusa CORE One+ Gen 2 + INDX 4 Tools</div><div class="podium-desc">Cuatro herramientas independientes y mantenibilidad</div></article></div><p>Las diferencias son pequeñas. El ranking debe interpretarse como una forma de organizar los compromisos entre <strong>capacidad técnica, costo, madurez, software, soporte, adquisición, repuestos y arquitectura multicolor/multimaterial</strong>, no como una clasificación absoluta de calidad.</p><hr/></section><section class="doc-section" data-section="2-contexto-y-objetivo"><h1 class="anchored-heading" id="2-contexto-y-objetivo">2. Contexto y objetivo<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="2-contexto-y-objetivo" type="button">#</button></h1><h2 class="anchored-heading" id="2-1-infraestructura-actual">2.1 Infraestructura actual<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="2-1-infraestructura-actual" type="button">#</button></h2><p>La infraestructura de impresión 3D de Intelektron está compuesta por:</p><ul class="feature-grid info-card-grid">
+<li class="info-card"><strong>1 × Bambu Lab X1 Carbon Combo</strong></li>
+<li class="info-card"><strong>5 × Prusa MK3.5S</strong></li>
+</ul><p>El material dominante es PETG, con usos puntuales de FLEX y ABS.</p><p>Una nueva impresora debe <strong>complementar</strong> esta infraestructura. Por esa razón se excluyen del estudio las plataformas abiertas y se priorizan equipos cerrados capaces de procesar de manera repetible polímeros de ingeniería.</p><h2 class="anchored-heading" id="2-2-objetivo">2.2 Objetivo<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="2-2-objetivo" type="button">#</button></h2><p>Evaluar la <strong>factibilidad técnico-económica</strong> de incorporar una impresora 3D cerrada para materiales técnicos, considerando:</p><ul class="objective-grid">
+<li class="objective-card">Capacidad real con materiales de ingeniería</li>
+<li class="objective-card">Calidad, fiabilidad y repetibilidad</li>
+<li class="objective-card">Costo</li>
+<li class="objective-card">Multicolor</li>
+<li class="objective-card">Multimaterial</li>
+<li class="objective-card">Cámara y control térmico</li>
+<li class="objective-card">Software / slicer</li>
+<li class="objective-card">Soporte del fabricante</li>
+<li class="objective-card">Viabilidad de compra desde Argentina</li>
+<li class="objective-card">Repuestos y mantenibilidad</li>
+<li class="objective-card">Reviews</li>
+<li class="objective-card">Compatibilidad con CF/GF</li>
+<li class="objective-card">Margen futuro</li>
+</ul><hr/></section><section class="doc-section" data-section="3-casos-de-uso-de-referencia"><h1 class="anchored-heading" id="3-casos-de-uso-de-referencia">3. Casos de uso de referencia<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="3-casos-de-uso-de-referencia" type="button">#</button></h1><h2 class="anchored-heading" id="3-1-acople-magnetico-fs2000">3.1 Acople magnético FS2000<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="3-1-acople-magnetico-fs2000" type="button">#</button></h2><p>Uno de los casos de uso considerados es un <strong>acople magnético empleado en el sistema FS2000</strong>. El conjunto utiliza dos piezas impresas que alojan imanes N52 y transmiten movimiento entre motor y puerta, permitiendo desacople ante una sobrecarga.</p><p>La pieza inferior presenta antecedentes de rotura en la zona del chavetero. La geometría no puede modificarse libremente, por lo que una vía de mejora consiste en utilizar un material con mejores prestaciones mecánicas.</p><p>Las propiedades relevantes son:</p><ul class="feature-grid info-card-grid">
+<li class="info-card">Resistencia mecánica</li>
+<li class="info-card">Tenacidad</li>
+<li class="info-card">Resistencia al impacto</li>
+<li class="info-card">Comportamiento a fatiga</li>
+<li class="info-card">Resistencia al creep</li>
+<li class="info-card">Adhesión entre capas</li>
+<li class="info-card">Respuesta frente a concentraciones de tensión</li>
+</ul><p>Este caso conduce directamente hacia <strong>PC, nylons y composites</strong>.</p><h2 class="anchored-heading" id="3-2-gabinete-lh-bio-y-futuros-productos-para-exteriores">3.2 Gabinete LH-Bio y futuros productos para exteriores<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="3-2-gabinete-lh-bio-y-futuros-productos-para-exteriores" type="button">#</button></h2><p>El segundo caso de uso es un gabinete biométrico utilizado en condiciones que pueden incluir:</p><ul class="feature-grid info-card-grid">
+<li class="info-card">Radiación solar</li>
+<li class="info-card">Lluvia</li>
+<li class="info-card">Humedad</li>
+<li class="info-card">Intemperie</li>
+</ul><p>La versión actual se fabrica en PETG, combinando cuerpo negro y difusor LED blanco. La misma lógica puede extenderse a lectores QR, lectores de tarjetas, electrónica instalada en portones y futuros productos exteriores.</p><p>Aquí resultan prioritarias:</p><ul class="feature-grid info-card-grid">
+<li class="info-card">Resistencia UV</li>
+<li class="info-card">Estabilidad dimensional</li>
+<li class="info-card">Comportamiento térmico</li>
+<li class="info-card">Acabado superficial</li>
+<li class="info-card">Disponibilidad de colores</li>
+<li class="info-card">Repetibilidad</li>
+<li class="info-card">Capacidad multicolor</li>
+</ul><p>Este caso conduce naturalmente hacia <strong>ASA y materiales equivalentes para exterior</strong>.</p><hr/></section><section class="doc-section" data-section="4-metodologia-y-logica-de-reduccion"><h1 class="anchored-heading" id="4-metodologia-y-logica-de-reduccion">4. Metodología y lógica de reducción<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="4-metodologia-y-logica-de-reduccion" type="button">#</button></h1><p>El análisis se estructuró de manera progresiva para preservar trazabilidad.</p><ol>
+<li>Se partió de <strong>necesidades reales</strong>.</li>
+<li>Esas necesidades se tradujeron en <strong>propiedades de materiales</strong>.</li>
+<li>Se construyó una <strong>matriz maestra de 20 materiales</strong>.</li>
+<li>Se redujo el universo a <strong>8 materiales con mayor interés experimental</strong>.</li>
+<li>Se seleccionaron <strong>3 materiales representativos</strong> para definir la impresora.</li>
+<li>Sus requisitos de proceso se convirtieron en <strong>requisitos de máquina</strong>.</li>
+<li>Se construyó una <strong>matriz técnica objetiva de 10 impresoras</strong>.</li>
+<li>Se aplicó un filtro técnico y estratégico.</li>
+<li>Las 6 finalistas se evaluaron con una <strong>matriz ponderada</strong>.</li>
+<li>Finalmente se incorporó la <strong>realidad económica y logística de Argentina</strong>.</li>
+</ol><p>En el documento se diferencian deliberadamente dos tipos de matrices:</p><ul class="feature-grid matrix-type-grid info-card-grid">
+<li class="info-card"><strong>Matriz de 10 impresoras</strong> principalmente técnica y objetiva</li>
+<li class="info-card"><strong>Matriz de 6 finalistas</strong> incorpora ponderaciones y criterios estratégicos de Intelektron</li>
+</ul><hr/></section><section class="doc-section" data-section="5-matriz-maestra-de-materiales-tecnicos"><h1 class="anchored-heading" id="5-matriz-maestra-de-materiales-tecnicos">5. Matriz maestra de materiales técnicos<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="5-matriz-maestra-de-materiales-tecnicos" type="button">#</button></h1><blockquote>
+<p>Los precios son referencias observadas durante la investigación y no deben interpretarse como costo final puesto en Argentina. Los puntajes 1–5 permiten comparar atributos cualitativos sin sustituir los datos técnicos originales. En “Facilidad”, <strong>5 = más favorable / sencillo de procesar</strong> y <strong>1 = muy exigente</strong>.</p>
+</blockquote><h2 class="anchored-heading" id="5-1-matriz-maestra-consolidada">5.1 Matriz maestra consolidada<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="5-1-matriz-maestra-consolidada" type="button">#</button></h2><div class="table-block" data-table-id="table-2"><div class="table-meta">19 columnas · 20 filas</div><div class="table-toolbar" data-for="table-2"><div aria-label="Vistas de columnas" class="preset-group" role="group"><button class="preset-btn" data-preset="essential" data-table="table-2" type="button">Esencial</button><button class="preset-btn" data-preset="process" data-table="table-2" type="button">Proceso</button><button class="preset-btn" data-preset="properties" data-table="table-2" type="button">Propiedades</button><button class="preset-btn" data-preset="procurement" data-table="table-2" type="button">Procura</button><button class="preset-btn" data-preset="all" data-table="table-2" type="button">Completa</button></div><details class="columns-menu"><summary>Columnas</summary><div class="columns-grid"><label class="column-toggle"><input checked="checked" data-col="0" data-table="table-2" disabled="disabled" type="checkbox"><span>Fabricante</span></input></label><label class="column-toggle"><input checked="checked" data-col="1" data-table="table-2" disabled="disabled" type="checkbox"/><span>Material</span></label><label class="column-toggle"><input checked="checked" data-col="2" data-table="table-2" type="checkbox"/><span>Canal</span></label><label class="column-toggle"><input checked="checked" data-col="3" data-table="table-2" type="checkbox"/><span>Presentación</span></label><label class="column-toggle"><input checked="checked" data-col="4" data-table="table-2" type="checkbox"/><span>Hotend</span></label><label class="column-toggle"><input checked="checked" data-col="5" data-table="table-2" type="checkbox"/><span>Heatbed</span></label><label class="column-toggle"><input checked="checked" data-col="6" data-table="table-2" type="checkbox"/><span>Cámara</span></label><label class="column-toggle"><input checked="checked" data-col="7" data-table="table-2" type="checkbox"/><span>Requisitos de extrusión</span></label><label class="column-toggle"><input checked="checked" data-col="8" data-table="table-2" type="checkbox"/><span>Secado / humedad</span></label><label class="column-toggle"><input checked="checked" data-col="9" data-table="table-2" type="checkbox"/><span>Mecánica 1–5</span></label><label class="column-toggle"><input checked="checked" data-col="10" data-table="table-2" type="checkbox"/><span>UV / intemperie 1–5</span></label><label class="column-toggle"><input checked="checked" data-col="11" data-table="table-2" type="checkbox"/><span>Térmica 1–5</span></label><label class="column-toggle"><input checked="checked" data-col="12" data-table="table-2" type="checkbox"/><span>Química / desgaste 1–5</span></label><label class="column-toggle"><input checked="checked" data-col="13" data-table="table-2" type="checkbox"/><span>Colores 1–5</span></label><label class="column-toggle"><input checked="checked" data-col="14" data-table="table-2" type="checkbox"/><span>Facilidad 1–5</span></label><label class="column-toggle"><input checked="checked" data-col="15" data-table="table-2" type="checkbox"/><span>Características principales</span></label><label class="column-toggle"><input checked="checked" data-col="16" data-table="table-2" type="checkbox"/><span>Procura / observaciones</span></label><label class="column-toggle"><input checked="checked" data-col="17" data-table="table-2" type="checkbox"/><span>Precio ref.</span></label><label class="column-toggle"><input checked="checked" data-col="18" data-table="table-2" type="checkbox"/><span>Precio normalizado</span></label></div></details></div><div aria-label="Tabla desplazable horizontalmente" class="table-scroll" tabindex="0"><table class="data-table master-materials-table smart-wrap-table" data-columns="19" data-headers='["Fabricante", "Material", "Canal", "Presentación", "Hotend", "Heatbed", "Cámara", "Requisitos de extrusión", "Secado / humedad", "Mecánica 1–5", "UV / intemperie 1–5", "Térmica 1–5", "Química / desgaste 1–5", "Colores 1–5", "Facilidad 1–5", "Características principales", "Procura / observaciones", "Precio ref.", "Precio normalizado"]' data-sticky-count="2" id="table-2">
+<thead>
+<tr>
+<th>Fabricante</th>
+<th>Material</th>
+<th>Canal</th>
+<th>Presentación</th>
+<th>Hotend</th>
+<th>Heatbed</th>
+<th>Cámara</th>
+<th>Requisitos de extrusión</th>
+<th>Secado / humedad</th>
+<th style="text-align:right">Mecánica 1–5</th>
+<th style="text-align:right">UV / intemperie 1–5</th>
+<th style="text-align:right">Térmica 1–5</th>
+<th style="text-align:right">Química / desgaste 1–5</th>
+<th style="text-align:right">Colores 1–5</th>
+<th style="text-align:right">Facilidad 1–5</th>
+<th>Características principales</th>
+<th>Procura / observaciones</th>
+<th style="text-align:right">Precio ref.</th>
+<th style="text-align:right">Precio normalizado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PrintaLot</td>
+<td><a href="https://printalot.com.ar/productos/filamentos/pc/pc-1-kg-natural-translucido/" rel="noopener noreferrer" target="_blank"><strong>PC</strong></a></td>
+<td>A</td>
+<td>1 kg</td>
+<td>240–260 °C</td>
+<td>110–130 °C</td>
+<td>Cerrada pasiva recomendada</td>
+<td>No abrasivo; hotend alta T°</td>
+<td>Control conveniente</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">2</td>
+<td>PC técnico local; alto impacto y rigidez; fabricante declara &gt;135 °C sin deformación</td>
+<td>Fabricación argentina; muy relevante por disponibilidad nacional</td>
+<td style="text-align:right">≈ ARS 34.500</td>
+<td style="text-align:right">≈ ARS 34.500/kg</td>
+</tr>
+<tr>
+<td>PrintaLot</td>
+<td><a href="https://printalot.com.ar/productos/filamentos/nylon-max/nylon-max-1-kg/" rel="noopener noreferrer" target="_blank"><strong>Nylon MAX</strong></a></td>
+<td>A</td>
+<td>1 kg</td>
+<td>220–240 °C</td>
+<td>80–100 °C</td>
+<td>Cerrada recomendada</td>
+<td>Convencional</td>
+<td>Control importante</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">N/D</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">2</td>
+<td>Muy alta tenacidad, impacto, fatiga y desgaste</td>
+<td>Fabricación argentina; stock observado irregular</td>
+<td style="text-align:right">≈ ARS 33.400</td>
+<td style="text-align:right">≈ ARS 33.400/kg</td>
+</tr>
+<tr>
+<td>Grilon3</td>
+<td><a href="https://grilon3.com.ar/producto/nylon-6-natural/" rel="noopener noreferrer" target="_blank"><strong>Nylon 6 / PA6</strong></a></td>
+<td>A</td>
+<td>1 kg</td>
+<td>230–250 °C</td>
+<td>90–110 °C</td>
+<td>Cerrada conveniente</td>
+<td>Convencional</td>
+<td>Higroscópico; secado importante</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">N/D</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">2</td>
+<td>Buen material de ingeniería para esfuerzos, flexión, torsión y desgaste</td>
+<td>Fabricación argentina; precio según distribuidor</td>
+<td style="text-align:right">Consultar</td>
+<td style="text-align:right">N/D</td>
+</tr>
+<tr>
+<td>Grilon3</td>
+<td><a href="https://grilon3.com.ar/producto/filamento-3d-nylon-12-natural/" rel="noopener noreferrer" target="_blank"><strong>Nylon 12 / PA12</strong></a></td>
+<td>A</td>
+<td>1 kg</td>
+<td>225–250 °C</td>
+<td>90–110 °C</td>
+<td>Cerrada conveniente</td>
+<td>Convencional</td>
+<td>Menor absorción que PA6</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">2</td>
+<td>Buen balance mecánico/químico con menor sensibilidad a humedad</td>
+<td>Fabricación argentina; costo superior a PA6</td>
+<td style="text-align:right">Consultar</td>
+<td style="text-align:right">N/D</td>
+</tr>
+<tr>
+<td>Grilon3</td>
+<td><a href="https://grilon3.com.ar/producto/filamento-3d-acetal-negro/" rel="noopener noreferrer" target="_blank"><strong>Acetal / POM</strong></a></td>
+<td>A</td>
+<td>1 kg</td>
+<td>210–240 °C</td>
+<td>90–110 °C</td>
+<td>Cerrada conveniente</td>
+<td>Adhesión a cama crítica</td>
+<td>Muy baja absorción</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">N/D</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">1</td>
+<td>Autolubricante; excelente para bujes, guías, engranajes y piezas deslizantes</td>
+<td>Capacidad distinta a PC/PA; fabricación nacional</td>
+<td style="text-align:right">Consultar</td>
+<td style="text-align:right">N/D</td>
+</tr>
+<tr>
+<td>Grilon3</td>
+<td><a href="https://grilon3.com.ar/producto/pp-natural/" rel="noopener noreferrer" target="_blank"><strong>PP-T</strong></a></td>
+<td>A</td>
+<td>1 kg</td>
+<td>220–230 °C</td>
+<td>90–100 °C</td>
+<td>Cerrada conveniente</td>
+<td>Superficie/adhesivo específico PP</td>
+<td>Baja afinidad por agua</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">3</td>
+<td>Bajo peso, fatiga, flexión repetida, químicos, agua e intemperie</td>
+<td>Fabricación argentina; aporta diversidad funcional</td>
+<td style="text-align:right">Consultar</td>
+<td style="text-align:right">N/D</td>
+</tr>
+<tr>
+<td>Prusament</td>
+<td><a href="https://www.prusa3d.com/category/prusament-asa/" rel="noopener noreferrer" target="_blank"><strong>ASA</strong></a></td>
+<td>B</td>
+<td>850 g</td>
+<td>≈250–265 °C</td>
+<td>≈100–110 °C</td>
+<td>Cerrada recomendada</td>
+<td>Convencional</td>
+<td>Según condición</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4</td>
+<td>Referencia para exterior: UV, temperatura, estética y buena procesabilidad</td>
+<td>Compra internacional directa; ecosistema y perfiles Prusa</td>
+<td style="text-align:right">Precio Prusa</td>
+<td style="text-align:right">N/D</td>
+</tr>
+<tr>
+<td>Prusament</td>
+<td><a href="https://www.prusa3d.com/category/prusament-pc-blend/" rel="noopener noreferrer" target="_blank"><strong>PC Blend</strong></a></td>
+<td>B</td>
+<td>900 g</td>
+<td>≈275 °C</td>
+<td>≈110 °C</td>
+<td>Cerrada conveniente</td>
+<td>Hotend alta T°</td>
+<td>Secado ocasional</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">2</td>
+<td>Muy alta tenacidad, impacto y resistencia al creep; ≈113 °C</td>
+<td>Compra directa; perfiles oficiales</td>
+<td style="text-align:right">≈ USD 42,58</td>
+<td style="text-align:right">≈ USD 47,31/kg</td>
+</tr>
+<tr>
+<td>Prusament</td>
+<td><a href="https://www.prusa3d.com/product/prusament-pc-blend-carbon-fiber-filament/" rel="noopener noreferrer" target="_blank"><strong>PC Blend Carbon Fiber</strong></a></td>
+<td>B</td>
+<td>800 g</td>
+<td>285 ±10 °C</td>
+<td>110 ±10 °C</td>
+<td>No requerida por formulación; máquina cerrada preferida</td>
+<td><strong>Boquilla endurecida obligatoria</strong></td>
+<td>Normalmente no requiere secado previo</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">3</td>
+<td>Composite rígido y dimensionalmente estable; ≈114 °C / ≈130 °C recocido</td>
+<td>Compra directa; referencia principal PC-CF</td>
+<td style="text-align:right">≈ USD 59,99</td>
+<td style="text-align:right">≈ USD 74,99/kg</td>
+</tr>
+<tr>
+<td>Prusament</td>
+<td><a href="https://www.prusa3d.com/product/prusament-pa11-carbon-fiber-filament/" rel="noopener noreferrer" target="_blank"><strong>PA11-CF</strong></a></td>
+<td>B</td>
+<td>800 g</td>
+<td>285 ±10 °C</td>
+<td>110 ±10 °C</td>
+<td>No imprescindible</td>
+<td>Boquilla endurecida + superficie PA</td>
+<td>Secado relevante</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">N/D</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">2</td>
+<td>Composite de alto desempeño mecánico, térmico y químico</td>
+<td>Compra directa; costo alto</td>
+<td style="text-align:right">Precio Prusa</td>
+<td style="text-align:right">N/D</td>
+</tr>
+<tr>
+<td>Bambu Lab</td>
+<td><a href="https://us.store.bambulab.com/products/asa-filament" rel="noopener noreferrer" target="_blank"><strong>ASA</strong></a></td>
+<td>Especial</td>
+<td>1 kg</td>
+<td>240–270 °C</td>
+<td>80–100 °C</td>
+<td>Cerrada requerida</td>
+<td>Convencional</td>
+<td>≈80 °C / 8 h recomendado</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">4</td>
+<td>ASA integrado al ecosistema Bambu; HDT ≈100 °C</td>
+<td>Procura desde Argentina a validar según canal</td>
+<td style="text-align:right">≈ USD 29,99</td>
+<td style="text-align:right">≈ USD 29,99/kg origen</td>
+</tr>
+<tr>
+<td>Bambu Lab</td>
+<td><a href="https://eu.store.bambulab.com/products/asa-cf" rel="noopener noreferrer" target="_blank"><strong>ASA-CF</strong></a></td>
+<td>Especial</td>
+<td>≈1 kg</td>
+<td>≈250–280 °C</td>
+<td>≈80–100 °C</td>
+<td>Cerrada</td>
+<td>Boquilla endurecida; 0,6 mm recomendable</td>
+<td>Secado recomendado</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">3</td>
+<td>ASA reforzado para rigidez y estabilidad</td>
+<td>Procura regional / Argentina a validar</td>
+<td style="text-align:right">Regional</td>
+<td style="text-align:right">N/D</td>
+</tr>
+<tr>
+<td>Bambu Lab</td>
+<td><a href="https://jp.store.bambulab.com/en/products/pa6-cf" rel="noopener noreferrer" target="_blank"><strong>PA6-CF</strong></a></td>
+<td>Especial</td>
+<td>1 kg</td>
+<td>260–290 °C</td>
+<td>80–100 °C</td>
+<td>Cerrada</td>
+<td>Acero endurecido; 0,6 mm recomendado</td>
+<td>80 °C / 8–12 h</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">N/D</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">2</td>
+<td>≈102 MPa tracción / 151 MPa flexión; HDT ≈186 °C</td>
+<td>Excelente referencia técnica; procura especial</td>
+<td style="text-align:right">Regional</td>
+<td style="text-align:right">N/D</td>
+</tr>
+<tr>
+<td>Bambu Lab</td>
+<td><a href="https://us.store.bambulab.com/en/products/pet-cf" rel="noopener noreferrer" target="_blank"><strong>PET-CF</strong></a></td>
+<td>Especial</td>
+<td>1 kg</td>
+<td>260–290 °C</td>
+<td>80–100 °C</td>
+<td>Cerrada recomendable</td>
+<td>Acero endurecido; 0,6 mm recomendado</td>
+<td>80 °C / 8–12 h</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">N/D</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">2</td>
+<td>Composite rígido; HDT ≈205 °C; menor sensibilidad a humedad que PA-CF</td>
+<td>Interesante para ambientes húmedos</td>
+<td style="text-align:right">≈ USD 44,99</td>
+<td style="text-align:right">≈ USD 44,99/kg origen</td>
+</tr>
+<tr>
+<td>Bambu Lab</td>
+<td><a href="https://us.store.bambulab.com/collections/bambu-lab-3d-printer-filament/products/pps-cf" rel="noopener noreferrer" target="_blank"><strong>PPS-CF</strong></a></td>
+<td>Especial</td>
+<td>1 kg</td>
+<td>310–340 °C</td>
+<td>Alta T°</td>
+<td>Cámara activa 60–90 °C recomendada</td>
+<td>Hotend ≥340 °C + sistema endurecido</td>
+<td>Secado alta T°</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">1</td>
+<td>Material frontera; HDT ≈264 °C y resistencia química excepcional</td>
+<td>No define la compra base; mide margen high-temp</td>
+<td style="text-align:right">Elevado</td>
+<td style="text-align:right">N/D</td>
+</tr>
+<tr>
+<td>eSUN</td>
+<td><a href="https://www.esun3d.com/asa-pro-product" rel="noopener noreferrer" target="_blank"><strong>ASA+</strong></a></td>
+<td>Por validar</td>
+<td>1 kg</td>
+<td>≈250–280 °C</td>
+<td>≈90–110 °C</td>
+<td>Cerrada recomendada</td>
+<td>Convencional</td>
+<td>Sin exigencia extraordinaria</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4</td>
+<td>ASA competitivo con buena oferta cromática</td>
+<td>Canal práctico a Argentina por validar</td>
+<td style="text-align:right">Regional</td>
+<td style="text-align:right">N/D</td>
+</tr>
+<tr>
+<td>eSUN</td>
+<td><a href="https://www.esun3d.com/uploads/eSUN_ePAHT-CF-Filament_TDS_V4.01.pdf" rel="noopener noreferrer" target="_blank"><strong>ePAHT-CF</strong></a></td>
+<td>Por validar</td>
+<td>1 kg</td>
+<td>260–300 °C</td>
+<td>45–60 °C</td>
+<td>No activa especificada</td>
+<td>Acero endurecido/ruby + engranajes endurecidos</td>
+<td>70 °C / &gt;12 h</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">N/D</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">2</td>
+<td>PA6-CF exigente; HDT ≈190 °C / continuo ≈150 °C</td>
+<td>Procura hacia Argentina no suficientemente clara</td>
+<td style="text-align:right">Regional</td>
+<td style="text-align:right">N/D</td>
+</tr>
+<tr>
+<td>Fillamentum</td>
+<td><a href="https://shop.fillamentum.com/products/nylon-cf15-carbon" rel="noopener noreferrer" target="_blank"><strong>Nylon CF15</strong></a></td>
+<td>B</td>
+<td>600 g</td>
+<td>235–260 °C</td>
+<td>80–105 °C</td>
+<td>Cerrada recomendada</td>
+<td>Boquilla resistente al desgaste</td>
+<td>Mantener seco</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">2</td>
+<td>PA12-CF con buena estabilidad</td>
+<td>Envío internacional y muestras de 15 m útiles para ensayo</td>
+<td style="text-align:right">≈ €64</td>
+<td style="text-align:right">≈ €106,7/kg</td>
+</tr>
+<tr>
+<td>FormFutura</td>
+<td><a href="https://formfutura.com/product/apollox/" rel="noopener noreferrer" target="_blank"><strong>ApolloX</strong></a></td>
+<td>B / validar</td>
+<td>250 g–8 kg</td>
+<td>230–280 °C</td>
+<td>90–110 °C</td>
+<td>≈40 °C; activa recomendada piezas grandes</td>
+<td>Convencional</td>
+<td>Sin requisito extraordinario</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4</td>
+<td>ASA modificado orientado a exterior y bajo warping</td>
+<td>Técnicamente atractivo; procura menos simple</td>
+<td style="text-align:right">Variable</td>
+<td style="text-align:right">N/D</td>
+</tr>
+<tr>
+<td>colorFabb</td>
+<td><a href="https://colorfabb.com/pa-cf-low-warp" rel="noopener noreferrer" target="_blank"><strong>PA-CF Low Warp</strong></a></td>
+<td>B</td>
+<td>≈700 g</td>
+<td>260–280 °C</td>
+<td>Ambiente–50 °C</td>
+<td>No requerida</td>
+<td>Boquilla resistente a abrasión</td>
+<td>Higroscópico</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">N/D</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">3</td>
+<td>PA-CF formulado para reducir warping y exigencia térmica</td>
+<td>Demuestra que PA-CF no implica siempre cámara activa/cama 100 °C</td>
+<td style="text-align:right">Alto</td>
+<td style="text-align:right">N/D</td>
+</tr>
+</tbody>
+</table></div></div><h3 class="anchored-heading" id="lectura-de-la-escala-1-5">Lectura de la escala 1–5<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="lectura-de-la-escala-1-5" type="button">#</button></h3><p>Los puntajes anteriores son <strong>comparativos</strong>, no sustituyen las fichas técnicas:</p><ul class="feature-grid info-card-grid">
+<li class="info-card"><strong>5:</strong> Muy favorable / sobresaliente para el atributo</li>
+<li class="info-card"><strong>4:</strong> Favorable</li>
+<li class="info-card"><strong>3:</strong> Adecuado / intermedio</li>
+<li class="info-card"><strong>2:</strong> Limitado o exigente</li>
+<li class="info-card"><strong>1:</strong> Muy limitado / muy exigente</li>
+<li class="info-card"><strong>N/D:</strong> información insuficiente o atributo no adecuadamente caracterizado</li>
+</ul><h2 class="anchored-heading" id="5-2-que-demuestra-la-matriz-maestra">5.2 Qué demuestra la matriz maestra<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="5-2-que-demuestra-la-matriz-maestra" type="button">#</button></h2><p>La matriz confirma que no existe un único “material técnico”:</p><ul class="feature-grid info-card-grid">
+<li class="info-card"><strong>PC / PC Blend</strong> → tenacidad, impacto y temperatura</li>
+<li class="info-card"><strong>PA6 / PA12 / Nylon MAX</strong> → mecánica, fatiga y piezas funcionales</li>
+<li class="info-card"><strong>POM</strong> → baja fricción y autolubricación</li>
+<li class="info-card"><strong>PP / PP-T</strong> → fatiga, flexión y resistencia química</li>
+<li class="info-card"><strong>ASA</strong> → exterior, UV y estética</li>
+<li class="info-card"><strong>CF/GF</strong> → rigidez, estabilidad dimensional y temperatura, a cambio de abrasividad y menor oferta cromática</li>
+<li class="info-card"><strong>PPS-CF</strong> → salto hacia materiales high-temperature con exigencias de máquina sustancialmente mayores</li>
+</ul><p>La matriz maestra define el universo. El siguiente paso consiste en reducirlo a un conjunto manejable de materiales de experimentación.</p><hr/></section><section class="doc-section" data-section="6-preseleccion-de-materiales-prioritarios"><h1 class="anchored-heading" id="6-preseleccion-de-materiales-prioritarios">6. Preselección de materiales prioritarios<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="6-preseleccion-de-materiales-prioritarios" type="button">#</button></h1><h2 class="anchored-heading" id="6-1-objetivo">6.1 Objetivo<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="6-1-objetivo" type="button">#</button></h2><p>La pregunta aquí cambia:</p><blockquote>
+<p><strong>¿Qué materiales parece razonable que Intelektron priorice durante una primera etapa de experimentación, considerando valor técnico y facilidad de abastecimiento?</strong></p>
+</blockquote><p>La preselección cubre familias distintas sin pretender que todos terminen utilizándose de forma regular.</p><div class="table-block" data-table-id="table-3"><div class="table-meta">8 columnas · 8 filas</div><div class="table-toolbar" data-for="table-3"><div aria-label="Vistas de columnas" class="preset-group" role="group"><button class="preset-btn" data-preset="essential" data-table="table-3" type="button">Esencial</button><button class="preset-btn" data-preset="process" data-table="table-3" type="button">Proceso</button><button class="preset-btn" data-preset="properties" data-table="table-3" type="button">Propiedades</button><button class="preset-btn" data-preset="procurement" data-table="table-3" type="button">Procura</button><button class="preset-btn" data-preset="all" data-table="table-3" type="button">Completa</button></div><details class="columns-menu"><summary>Columnas</summary><div class="columns-grid"><label class="column-toggle"><input checked="checked" data-col="0" data-table="table-3" disabled="disabled" type="checkbox"/><span>Material</span></label><label class="column-toggle"><input checked="checked" data-col="1" data-table="table-3" type="checkbox"/><span>Mecánica exigente</span></label><label class="column-toggle"><input checked="checked" data-col="2" data-table="table-3" type="checkbox"/><span>Exterior</span></label><label class="column-toggle"><input checked="checked" data-col="3" data-table="table-3" type="checkbox"/><span>Estética / colores</span></label><label class="column-toggle"><input checked="checked" data-col="4" data-table="table-3" type="checkbox"/><span>Facilidad de proceso</span></label><label class="column-toggle"><input checked="checked" data-col="5" data-table="table-3" type="checkbox"/><span>Abastecimiento</span></label><label class="column-toggle"><input checked="checked" data-col="6" data-table="table-3" type="checkbox"/><span>Prioridad experimental</span></label><label class="column-toggle"><input checked="checked" data-col="7" data-table="table-3" type="checkbox"/><span>Motivo principal</span></label></div></details></div><div aria-label="Tabla desplazable horizontalmente" class="table-scroll" tabindex="0"><table class="data-table smart-wrap-table" data-columns="8" data-headers='["Material", "Mecánica exigente", "Exterior", "Estética / colores", "Facilidad de proceso", "Abastecimiento", "Prioridad experimental", "Motivo principal"]' data-sticky-count="1" id="table-3">
+<thead>
+<tr>
+<th>Material</th>
+<th style="text-align:right">Mecánica exigente</th>
+<th style="text-align:right">Exterior</th>
+<th style="text-align:right">Estética / colores</th>
+<th style="text-align:right">Facilidad de proceso</th>
+<th style="text-align:right">Abastecimiento</th>
+<th style="text-align:right">Prioridad experimental</th>
+<th>Motivo principal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://printalot.com.ar/productos/filamentos/pc/pc-1-kg-natural-translucido/" rel="noopener noreferrer" target="_blank"><strong>PrintaLot PC</strong></a></td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right"><strong>5</strong></td>
+<td>Resistencia, impacto, temperatura e intemperie con fabricación local</td>
+</tr>
+<tr>
+<td><a href="https://grilon3.com.ar/producto/filamento-3d-nylon-12-natural/" rel="noopener noreferrer" target="_blank"><strong>Grilon3 PA12</strong></a></td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right"><strong>5</strong></td>
+<td>Candidato mecánico menos sensible a humedad que PA6 y disponible localmente</td>
+</tr>
+<tr>
+<td><a href="https://printalot.com.ar/productos/filamentos/nylon-max/nylon-max-1-kg/" rel="noopener noreferrer" target="_blank"><strong>PrintaLot Nylon MAX</strong></a></td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right"><strong>4</strong></td>
+<td>Impacto, rotura, fatiga y desgaste</td>
+</tr>
+<tr>
+<td><a href="https://www.prusa3d.com/category/prusament-pc-blend/" rel="noopener noreferrer" target="_blank"><strong>Prusament PC Blend</strong></a></td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right"><strong>5</strong></td>
+<td>PC tenaz y resistente; referencia frente a composites CF</td>
+</tr>
+<tr>
+<td><a href="https://www.prusa3d.com/product/prusament-pc-blend-carbon-fiber-filament/" rel="noopener noreferrer" target="_blank"><strong>Prusament PCCF</strong></a></td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right"><strong>5</strong></td>
+<td>Composite rígido, estable, térmico, químico y abrasivo</td>
+</tr>
+<tr>
+<td><a href="https://shop.fillamentum.com/products/nylon-cf15-carbon" rel="noopener noreferrer" target="_blank"><strong>Fillamentum Nylon CF15</strong></a></td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right"><strong>5</strong></td>
+<td>Introduce PA-CF con compra internacional clara y muestras pequeñas</td>
+</tr>
+<tr>
+<td><a href="https://www.prusa3d.com/category/prusament-asa/" rel="noopener noreferrer" target="_blank"><strong>Prusament ASA</strong></a></td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right"><strong>5</strong></td>
+<td>Referencia fuerte para exterior, UV, temperatura, estética y colores</td>
+</tr>
+<tr>
+<td><a href="https://grilon3.com.ar/producto/pp-natural/" rel="noopener noreferrer" target="_blank"><strong>Grilon3 PP-T</strong></a></td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right"><strong>4</strong></td>
+<td>Fatiga, flexión, químicos, humedad y exterior con fabricación nacional</td>
+</tr>
+</tbody>
+</table></div></div><h2 class="anchored-heading" id="6-2-de-8-materiales-a-3-referencias">6.2 De 8 materiales a 3 referencias<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="6-2-de-8-materiales-a-3-referencias" type="button">#</button></h2><p>Para seleccionar impresoras no conviene utilizar los ocho como requisitos independientes: varias familias representarían exigencias solapadas.</p><p>Se seleccionaron tres materiales que cubren los tres territorios más relevantes:</p><h3 class="anchored-heading" id="prusament-asa">Prusament ASA<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="prusament-asa" type="button">#</button></h3><p>Representa <strong>exterior + UV + estética + multicolor</strong>.</p><h3 class="anchored-heading" id="prusament-pc-blend-carbon-fiber">Prusament PC Blend Carbon Fiber<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="prusament-pc-blend-carbon-fiber" type="button">#</button></h3><p>Representa <strong>rigidez + temperatura + estabilidad dimensional + abrasividad</strong>.</p><h3 class="anchored-heading" id="printalot-pc">PrintaLot PC<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="printalot-pc" type="button">#</button></h3><p>Representa <strong>resistencia mecánica + impacto + temperatura + abastecimiento local</strong>.</p><p>Los otros cinco no se descartan; pasan a ser materiales de experimentación secundaria porque sus capacidades quedan parcialmente representadas por la terna elegida.</p><hr/></section><section class="doc-section" data-section="7-requerimientos-derivados-para-la-impresora"><h1 class="anchored-heading" id="7-requerimientos-derivados-para-la-impresora">7. Requerimientos derivados para la impresora<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="7-requerimientos-derivados-para-la-impresora" type="button">#</button></h1><p>Con los tres materiales prioritarios ya seleccionados, los requisitos de máquina dejan de ser genéricos.</p><div class="table-block" data-table-id="table-4"><div class="table-meta">3 columnas · 13 filas</div><div aria-label="Tabla desplazable horizontalmente" class="table-scroll" tabindex="0"><table class="data-table smart-wrap-table requirements-table" data-columns="3" data-headers='["Requerimiento", "Nivel", "Derivado principalmente de"]' data-sticky-count="1" id="table-4">
+<thead>
+<tr>
+<th>Requerimiento</th>
+<th>Nivel</th>
+<th>Derivado principalmente de</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Arquitectura cerrada</td>
+<td>Obligatorio</td>
+<td>ASA / PC</td>
+</tr>
+<tr>
+<td>Hotend de alta temperatura</td>
+<td>Obligatorio</td>
+<td>PC / PCCF</td>
+</tr>
+<tr>
+<td>Cama de alta temperatura</td>
+<td>Obligatorio</td>
+<td>ASA / PC</td>
+</tr>
+<tr>
+<td>Cámara térmicamente controlada</td>
+<td>Obligatorio</td>
+<td>ASA / PC</td>
+</tr>
+<tr>
+<td>Cámara activamente calefaccionada</td>
+<td>Diferenciador</td>
+<td>PC / piezas grandes / margen técnico</td>
+</tr>
+<tr>
+<td>Compatibilidad con abrasivos</td>
+<td>Obligatorio</td>
+<td>PCCF</td>
+</tr>
+<tr>
+<td>Boquilla resistente al desgaste</td>
+<td>Obligatorio o adaptación identificada</td>
+<td>PCCF</td>
+</tr>
+<tr>
+<td>Calidad y repetibilidad</td>
+<td>Obligatorio</td>
+<td>Producción</td>
+</tr>
+<tr>
+<td>Ecosistema de software maduro</td>
+<td>Muy deseable</td>
+<td>Operación diaria</td>
+</tr>
+<tr>
+<td>Multicolor</td>
+<td>Deseable</td>
+<td>Gabinetes / señalización</td>
+</tr>
+<tr>
+<td>Multimaterial</td>
+<td>Diferenciador</td>
+<td>Nuevas aplicaciones</td>
+</tr>
+<tr>
+<td>Repuestos y mantenibilidad</td>
+<td>Muy deseable</td>
+<td>Riesgo operativo</td>
+</tr>
+<tr>
+<td>Compra viable desde Argentina</td>
+<td>Muy deseable</td>
+<td>Logística / continuidad</td>
+</tr>
+</tbody>
+</table></div></div><p>Estos requisitos constituyen el puente directo hacia la preselección de impresoras.</p><hr/></section><section class="doc-section" data-section="8-preseleccion-tecnica-de-10-impresoras"><h1 class="anchored-heading" id="8-preseleccion-tecnica-de-10-impresoras">8. Preselección técnica de 10 impresoras<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="8-preseleccion-tecnica-de-10-impresoras" type="button">#</button></h1><h2 class="anchored-heading" id="8-1-proposito-de-esta-matriz">8.1 Propósito de esta matriz<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="8-1-proposito-de-esta-matriz" type="button">#</button></h2><p>Esta matriz es deliberadamente <strong>técnica y objetiva</strong>. No intenta todavía elegir una máquina, sino responder:</p><blockquote>
+<p><strong>¿Qué plataformas cerradas tienen una base técnica suficientemente interesante para continuar el análisis?</strong></p>
+</blockquote><p>Los criterios estratégicos —precio relativo, soporte, repuestos, reviews, compra desde Argentina— se ponderan posteriormente sobre las seis finalistas.</p><h2 class="anchored-heading" id="8-2-matriz-tecnica-preliminar">8.2 Matriz técnica preliminar<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="8-2-matriz-tecnica-preliminar" type="button">#</button></h2><div class="table-block" data-table-id="table-5"><div class="table-meta">14 columnas · 10 filas</div><div class="table-toolbar" data-for="table-5"><div aria-label="Vistas de columnas" class="preset-group" role="group"><button class="preset-btn" data-preset="essential" data-table="table-5" type="button">Esencial</button><button class="preset-btn" data-preset="process" data-table="table-5" type="button">Proceso</button><button class="preset-btn" data-preset="properties" data-table="table-5" type="button">Propiedades</button><button class="preset-btn" data-preset="procurement" data-table="table-5" type="button">Procura</button><button class="preset-btn" data-preset="all" data-table="table-5" type="button">Completa</button></div><details class="columns-menu"><summary>Columnas</summary><div class="columns-grid"><label class="column-toggle"><input checked="checked" data-col="0" data-table="table-5" disabled="disabled" type="checkbox"/><span>Plataforma</span></label><label class="column-toggle"><input checked="checked" data-col="1" data-table="table-5" type="checkbox"/><span>Hotend máx.</span></label><label class="column-toggle"><input checked="checked" data-col="2" data-table="table-5" type="checkbox"/><span>Heatbed máx.</span></label><label class="column-toggle"><input checked="checked" data-col="3" data-table="table-5" type="checkbox"/><span>Cámara</span></label><label class="column-toggle"><input checked="checked" data-col="4" data-table="table-5" type="checkbox"/><span>Calefacción activa / máx.</span></label><label class="column-toggle"><input checked="checked" data-col="5" data-table="table-5" type="checkbox"/><span>Volumen aprox.</span></label><label class="column-toggle"><input checked="checked" data-col="6" data-table="table-5" type="checkbox"/><span>CF/GF / abrasivos</span></label><label class="column-toggle"><input checked="checked" data-col="7" data-table="table-5" type="checkbox"/><span>ASA</span></label><label class="column-toggle"><input checked="checked" data-col="8" data-table="table-5" type="checkbox"/><span>PCCF</span></label><label class="column-toggle"><input checked="checked" data-col="9" data-table="table-5" type="checkbox"/><span>PC</span></label><label class="column-toggle"><input checked="checked" data-col="10" data-table="table-5" type="checkbox"/><span>Multicolor</span></label><label class="column-toggle"><input checked="checked" data-col="11" data-table="table-5" type="checkbox"/><span>Multimaterial / arquitectura</span></label><label class="column-toggle"><input checked="checked" data-col="12" data-table="table-5" type="checkbox"/><span>Slicer / ecosistema</span></label><label class="column-toggle"><input checked="checked" data-col="13" data-table="table-5" type="checkbox"/><span>Lectura preliminar</span></label></div></details></div><div aria-label="Tabla desplazable horizontalmente" class="table-scroll" tabindex="0"><table class="data-table compact-identity-table smart-wrap-table" data-columns="14" data-headers='["Plataforma", "Hotend máx.", "Heatbed máx.", "Cámara", "Calefacción activa / máx.", "Volumen aprox.", "CF/GF / abrasivos", "ASA", "PCCF", "PC", "Multicolor", "Multimaterial / arquitectura", "Slicer / ecosistema", "Lectura preliminar"]' data-sticky-count="1" id="table-5">
+<thead>
+<tr>
+<th>Plataforma</th>
+<th style="text-align:right">Hotend máx.</th>
+<th style="text-align:right">Heatbed máx.</th>
+<th>Cámara</th>
+<th>Calefacción activa / máx.</th>
+<th>Volumen aprox.</th>
+<th>CF/GF / abrasivos</th>
+<th style="text-align:center">ASA</th>
+<th style="text-align:center">PCCF</th>
+<th style="text-align:center">PC</th>
+<th>Multicolor</th>
+<th>Multimaterial / arquitectura</th>
+<th>Slicer / ecosistema</th>
+<th>Lectura preliminar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.bambulab.com/en/h2d" rel="noopener noreferrer" target="_blank"><strong>Bambu Lab H2D</strong></a></td>
+<td style="text-align:right"><strong>350 °C</strong></td>
+<td style="text-align:right"><strong>120 °C</strong></td>
+<td>Cerrada</td>
+<td><strong>Sí / 65 °C</strong></td>
+<td>350×320×325 mm envolvente; menor en dual</td>
+<td>Acero endurecido</td>
+<td style="text-align:center">Sí</td>
+<td style="text-align:center">Sí</td>
+<td style="text-align:center">Sí</td>
+<td>AMS</td>
+<td><strong>2 hotends independientes + AMS</strong></td>
+<td>Bambu Studio; muy maduro</td>
+<td>Muy completa; fuerte integración y multimaterial</td>
+</tr>
+<tr>
+<td><a href="https://www.bambulab.com/en/h2s" rel="noopener noreferrer" target="_blank"><strong>Bambu Lab H2S</strong></a></td>
+<td style="text-align:right"><strong>350 °C</strong></td>
+<td style="text-align:right"><strong>120 °C</strong></td>
+<td>Cerrada</td>
+<td><strong>Sí / 65 °C</strong></td>
+<td>340×320×340 mm</td>
+<td>Acero endurecido</td>
+<td style="text-align:center">Sí</td>
+<td style="text-align:center">Sí</td>
+<td style="text-align:center">Sí</td>
+<td>AMS 2 Pro</td>
+<td>1 hotend; cambio secuencial</td>
+<td>Bambu Studio; muy maduro</td>
+<td>Mantiene plataforma H2 con menor costo</td>
+</tr>
+<tr>
+<td><a href="https://www.prusa3d.com/core-one/" rel="noopener noreferrer" target="_blank"><strong>Prusa CORE One+ Gen 2</strong></a></td>
+<td style="text-align:right"><strong>290 °C</strong></td>
+<td style="text-align:right"><strong>120 °C</strong></td>
+<td>Cerrada</td>
+<td><strong>Pasiva / hasta ~55 °C</strong></td>
+<td>250×220×270 mm</td>
+<td>Requiere solución adecuada para abrasivos</td>
+<td style="text-align:center">Sí</td>
+<td style="text-align:center">Sí*</td>
+<td style="text-align:center">Sí</td>
+<td>INDX opcional</td>
+<td>INDX: herramientas independientes</td>
+<td>PrusaSlicer; muy maduro</td>
+<td>Mantenibilidad y ecosistema; cámara menos agresiva</td>
+</tr>
+<tr>
+<td><a href="https://www.prusa3d.com/product/prusa-core-one-l/" rel="noopener noreferrer" target="_blank"><strong>Prusa CORE One L+</strong></a></td>
+<td style="text-align:right">290 °C / <strong>400 °C con HT</strong></td>
+<td style="text-align:right"><strong>120 °C</strong></td>
+<td>Cerrada</td>
+<td><strong>Sí / 60 °C</strong></td>
+<td>300×300×330 mm</td>
+<td>Incluye boquilla resistente a abrasión; INDX requiere cautela propia</td>
+<td style="text-align:center">Sí</td>
+<td style="text-align:center">Sí*</td>
+<td style="text-align:center">Sí</td>
+<td>INDX opcional</td>
+<td>INDX: herramientas independientes</td>
+<td>PrusaSlicer; muy maduro</td>
+<td>Mayor volumen y margen high-temp</td>
+</tr>
+<tr>
+<td><a href="https://qidi3d.com/products/plus5" rel="noopener noreferrer" target="_blank"><strong>QIDI Plus5</strong></a></td>
+<td style="text-align:right"><strong>370 °C</strong></td>
+<td style="text-align:right"><strong>120 °C</strong></td>
+<td>Cerrada</td>
+<td><strong>Sí / 65 °C</strong></td>
+<td>320×320×300 mm</td>
+<td>Boquilla bimetálica endurecida</td>
+<td style="text-align:center">Sí</td>
+<td style="text-align:center">Sí</td>
+<td style="text-align:center">Sí</td>
+<td>QIDI Box</td>
+<td>1 hotend; alimentación secuencial</td>
+<td>QIDI Studio / Orca / PrusaSlicer</td>
+<td>Excelente capacidad térmica/precio</td>
+</tr>
+<tr>
+<td><a href="https://qidi3d.com/products/max4" rel="noopener noreferrer" target="_blank"><strong>QIDI Max4</strong></a></td>
+<td style="text-align:right"><strong>370 °C</strong></td>
+<td style="text-align:right"><strong>120 °C</strong></td>
+<td>Cerrada</td>
+<td><strong>Sí / 65 °C</strong></td>
+<td><strong>390×390×340 mm</strong></td>
+<td>Boquilla bimetálica endurecida</td>
+<td style="text-align:center">Sí</td>
+<td style="text-align:center">Sí</td>
+<td style="text-align:center">Sí</td>
+<td>QIDI Box</td>
+<td>1 hotend; alimentación secuencial</td>
+<td>QIDI Studio / Orca / PrusaSlicer</td>
+<td>Plus5 a mayor escala; alto solapamiento funcional</td>
+</tr>
+<tr>
+<td><a href="https://www.creality.com/products/creality-k2-plus-cfs-combo" rel="noopener noreferrer" target="_blank"><strong>Creality K2 Plus Combo</strong></a></td>
+<td style="text-align:right"><strong>350 °C</strong></td>
+<td style="text-align:right"><strong>120 °C</strong></td>
+<td>Cerrada</td>
+<td><strong>Sí / 60 °C</strong></td>
+<td><strong>350×350×350 mm</strong></td>
+<td>Boquilla tri-metal / punta acero; CF/GF oficial</td>
+<td style="text-align:center">Sí</td>
+<td style="text-align:center">Capacidad técnica compatible</td>
+<td style="text-align:center">Sí</td>
+<td>CFS, 4 colores base</td>
+<td>1 hotend; alimentación secuencial</td>
+<td>Creality Print</td>
+<td>Gran volumen y térmica; menor diferenciación para este caso</td>
+</tr>
+<tr>
+<td><a href="https://store.anycubic.com/collections/fdm-printer/products/kobra-s1-max-combo" rel="noopener noreferrer" target="_blank"><strong>Anycubic Kobra S1 Max Combo</strong></a></td>
+<td style="text-align:right"><strong>350 °C</strong></td>
+<td style="text-align:right"><strong>120 °C</strong></td>
+<td>Cerrada</td>
+<td><strong>Sí / 65 °C</strong></td>
+<td><strong>350×350×350 mm</strong></td>
+<td>Boquilla acero endurecido 0,4 + 0,6 mm incluida</td>
+<td style="text-align:center">Sí</td>
+<td style="text-align:center">Capacidad técnica compatible</td>
+<td style="text-align:center">Sí</td>
+<td>ACE 2 Pro, 4 colores base</td>
+<td>1 hotend; alimentación secuencial</td>
+<td>Anycubic Slicer / ecosistema propio</td>
+<td>Gran volumen, térmica y multicolor</td>
+</tr>
+<tr>
+<td><a href="https://www.flashforge.com/products/flashforge-creator-5-pro" rel="noopener noreferrer" target="_blank"><strong>Flashforge Creator 5 Pro</strong></a></td>
+<td style="text-align:right"><strong>320 °C</strong></td>
+<td style="text-align:right"><strong>120 °C</strong></td>
+<td>Cerrada</td>
+<td><strong>Sí / 65 °C</strong></td>
+<td>256×256×256 mm</td>
+<td>Boquillas/hardware para materiales reforzados</td>
+<td style="text-align:center">Sí</td>
+<td style="text-align:center">Sí</td>
+<td style="text-align:center">Sí</td>
+<td>4 herramientas</td>
+<td><strong>4 toolheads independientes</strong></td>
+<td>FlashPrint / Orca según flujo; menor madurez relativa</td>
+<td>Arquitectura multimaterial excepcional</td>
+</tr>
+<tr>
+<td><a href="https://www.raise3d.com/e3/" rel="noopener noreferrer" target="_blank"><strong>Raise3D E3</strong></a></td>
+<td style="text-align:right"><strong>330 °C</strong></td>
+<td style="text-align:right"><strong>110 °C</strong></td>
+<td>Cerrada</td>
+<td><strong>No se confirmó calefacción activa en la especificación oficial revisada</strong></td>
+<td>330×240×240 mm single / 295×240×240 dual</td>
+<td>Amplio soporte CF/GF mediante OMP</td>
+<td style="text-align:center">Sí</td>
+<td style="text-align:center">Compatible con múltiples composites; PCCF específico no usado como referencia oficial</td>
+<td style="text-align:center">Sí</td>
+<td>IDEX</td>
+<td><strong>2 extrusores independientes</strong></td>
+<td>ideaMaker / OMP</td>
+<td>Plataforma profesional interesante, pero menor relación valor/costo para este estudio</td>
+</tr>
+</tbody>
+</table></div></div><p>* En las configuraciones Prusa + INDX, PCCF es técnicamente imprimible, pero la durabilidad de las boquillas INDX actuales frente a uso abrasivo intensivo se considera una cautela específica.</p><h2 class="anchored-heading" id="8-3-que-muestra-la-matriz-de-10">8.3 Qué muestra la matriz de 10<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="8-3-que-muestra-la-matriz-de-10" type="button">#</button></h2><p>La preselección deja cuatro conclusiones importantes:</p><ol>
+<li><strong>La capacidad térmica ya no es exclusiva de una marca.</strong> QIDI, Creality, Anycubic, Bambu y Flashforge ofrecen cámaras activas de aproximadamente 60–65 °C.</li>
+<li><strong>La arquitectura multimaterial sí diferencia fuertemente.</strong> Dos o cuatro herramientas independientes no son equivalentes a alimentar cuatro filamentos por una sola boquilla.</li>
+<li><strong>El volumen por sí solo no agrega valor suficiente.</strong> Max4, K2 Plus y Kobra S1 Max son técnicamente fuertes, pero gran parte de su ventaja es tamaño.</li>
+<li><strong>Ecosistema, compra, soporte y repuestos no pueden resolverse en esta matriz técnica.</strong> Por ello se evalúan posteriormente mediante la matriz ponderada.</li>
+</ol><h2 class="anchored-heading" id="8-4-filtro-de-10-a-6">8.4 Filtro de 10 a 6<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="8-4-filtro-de-10-a-6" type="button">#</button></h2><p>Se mantienen:</p><ul class="feature-grid info-card-grid">
+<li class="info-card">H2D</li>
+<li class="info-card">H2S</li>
+<li class="info-card">CORE One+ Gen 2</li>
+<li class="info-card">CORE One L+</li>
+<li class="info-card">QIDI Plus5</li>
+<li class="info-card">Creator 5 Pro</li>
+</ul><p>Se retiran de la matriz final:</p><h3 class="anchored-heading" id="qidi-max4">QIDI Max4<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="qidi-max4" type="button">#</button></h3><p>No por incapacidad técnica, sino por <strong>alto solapamiento con Plus5</strong>. Su principal aporte adicional es tamaño, que no constituye una prioridad suficiente para Intelektron.</p><h3 class="anchored-heading" id="creality-k2-plus-combo">Creality K2 Plus Combo<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="creality-k2-plus-combo" type="button">#</button></h3><p>Tiene una base técnica muy sólida —350 °C, 120 °C, cámara activa 60 °C y 350 mm cúbicos—, pero no introduce un diferencial suficientemente fuerte frente a las alternativas retenidas cuando se consideran los objetivos específicos de Intelektron.</p><h3 class="anchored-heading" id="anycubic-kobra-s1-max-combo">Anycubic Kobra S1 Max Combo<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="anycubic-kobra-s1-max-combo" type="button">#</button></h3><p>Situación similar a K2 Plus: excelente base térmica y gran volumen, pero menor diferenciación estratégica frente a las finalistas.</p><h3 class="anchored-heading" id="raise3d-e3">Raise3D E3<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="raise3d-e3" type="button">#</button></h3><p>Su IDEX y enfoque profesional son técnicamente interesantes. Sin embargo, su relación entre costo, capacidad térmica y valor incremental para este proyecto resultó menos favorable que la de las seis retenidas.</p><hr/></section><section class="doc-section" data-section="9-configuraciones-finales-evaluadas"><h1 class="anchored-heading" id="9-configuraciones-finales-evaluadas">9. Configuraciones finales evaluadas<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="9-configuraciones-finales-evaluadas" type="button">#</button></h1><p>La matriz ponderada no compara las máquinas base, sino <strong>configuraciones razonables de compra</strong>:</p><ul class="feature-grid info-card-grid">
+<li class="info-card"><strong>Bambu Lab H2D Combo + AMS</strong></li>
+<li class="info-card"><strong>Bambu Lab H2S Combo + AMS</strong></li>
+<li class="info-card"><strong>Prusa CORE One+ Gen 2 + INDX 4 Tools</strong></li>
+<li class="info-card"><strong>Prusa CORE One L+ + INDX 4 Tools</strong></li>
+<li class="info-card"><strong>QIDI Plus5 + QIDI Box</strong></li>
+<li class="info-card"><strong>Flashforge Creator 5 Pro</strong></li>
+</ul><p>Esto es importante porque precio, multicolor y multimaterial cambian significativamente al incorporar AMS, INDX o QIDI Box.</p><p>Para Intelektron se considera <strong>4 filamentos simultáneos como máximo práctico actual</strong>. Capacidad adicional puede tener valor futuro, pero no obtiene ventaja automática.</p><hr/></section><section class="doc-section" data-section="10-criterios-escala-y-reglas-de-puntuacion"><h1 class="anchored-heading" id="10-criterios-escala-y-reglas-de-puntuacion">10. Criterios, escala y reglas de puntuación<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="10-criterios-escala-y-reglas-de-puntuacion" type="button">#</button></h1><h2 class="anchored-heading" id="10-1-escala">10.1 Escala<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="10-1-escala" type="button">#</button></h2><div class="table-block" data-table-id="table-6"><div class="table-meta">2 columnas · 5 filas</div><div aria-label="Tabla desplazable horizontalmente" class="table-scroll" tabindex="0"><table class="data-table smart-wrap-table" data-columns="2" data-headers='["Puntaje", "Interpretación"]' data-sticky-count="1" id="table-6">
+<thead>
+<tr>
+<th style="text-align:right">Puntaje</th>
+<th>Interpretación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">5</td>
+<td>Excelente / claramente favorable</td>
+</tr>
+<tr>
+<td style="text-align:right">4</td>
+<td>Bueno / favorable</td>
+</tr>
+<tr>
+<td style="text-align:right">3</td>
+<td>Adecuado / intermedio</td>
+</tr>
+<tr>
+<td style="text-align:right">2</td>
+<td>Débil / limitante</td>
+</tr>
+<tr>
+<td style="text-align:right">1</td>
+<td>Muy débil / no disponible</td>
+</tr>
+</tbody>
+</table></div></div><h2 class="anchored-heading" id="10-2-definicion-de-criterios">10.2 Definición de criterios<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="10-2-definicion-de-criterios" type="button">#</button></h2><ul>
+<li><strong>Capacidad real con materiales técnicos:</strong> cobertura efectiva de ASA, PCCF y PrintaLot PC.</li>
+<li><strong>Calidad, fiabilidad y repetibilidad:</strong> consistencia y estabilidad operativa.</li>
+<li><strong>Precio / costo de adquisición:</strong> costo de la configuración evaluada.</li>
+<li><strong>Multicolor:</strong> capacidad práctica con varios colores.</li>
+<li><strong>Multimaterial:</strong> capacidad real con materiales distintos, dando mayor valor a hardware independiente.</li>
+<li><strong>Cámara / térmico:</strong> utilidad real con materiales técnicos.</li>
+<li><strong>Slicer / ecosistema:</strong> madurez de software, perfiles e integración.</li>
+<li><strong>Soporte del fabricante:</strong> documentación, actualizaciones y atención.</li>
+<li><strong>Compra desde Argentina:</strong> facilidad y repetibilidad de adquisición.</li>
+<li><strong>Repuestos / mantenibilidad:</strong> disponibilidad, costo, reparabilidad y riesgo de parada.</li>
+<li><strong>Reviews:</strong> evidencia técnica y experiencia real.</li>
+<li><strong>CF/GF:</strong> preparación para abrasivos.</li>
+<li><strong>Margen futuro:</strong> potencial de expansión útil más allá de la configuración evaluada.</li>
+</ul><h2 class="anchored-heading" id="10-3-reglas-metodologicas">10.3 Reglas metodológicas<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="10-3-reglas-metodologicas" type="button">#</button></h2><ul class="feature-grid info-card-grid">
+<li class="info-card">Se evalúa la <strong>configuración probable de compra</strong>, no sólo la máquina base</li>
+<li class="info-card">Multicolor y multimaterial se mantienen separados</li>
+<li class="info-card">Cuatro filamentos constituyen el máximo práctico actual para Intelektron</li>
+<li class="info-card">Capacidades superiores no reciben ventaja automática</li>
+<li class="info-card">Costos locales e importados se distinguen</li>
+<li class="info-card">Una estimación se identifica explícitamente</li>
+<li class="info-card">Cuando no existe evidencia suficiente, no se infiere una ventaja</li>
+</ul><hr/></section><section class="doc-section" data-section="11-matriz-ponderada-final"><h1 class="anchored-heading" id="11-matriz-ponderada-final">11. Matriz ponderada final<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="11-matriz-ponderada-final" type="button">#</button></h1><div class="table-block" data-table-id="table-7"><div class="table-meta">15 columnas · 7 filas</div><div class="table-toolbar" data-for="table-7"><div aria-label="Vistas de columnas" class="preset-group" role="group"><button class="preset-btn" data-preset="essential" data-table="table-7" type="button">Esencial</button><button class="preset-btn" data-preset="process" data-table="table-7" type="button">Proceso</button><button class="preset-btn" data-preset="properties" data-table="table-7" type="button">Propiedades</button><button class="preset-btn" data-preset="procurement" data-table="table-7" type="button">Procura</button><button class="preset-btn" data-preset="all" data-table="table-7" type="button">Completa</button></div><details class="columns-menu"><summary>Columnas</summary><div class="columns-grid"><label class="column-toggle"><input checked="checked" data-col="0" data-table="table-7" disabled="disabled" type="checkbox"/><span>Alternativa</span></label><label class="column-toggle"><input checked="checked" data-col="1" data-table="table-7" type="checkbox"/><span>Materiales</span></label><label class="column-toggle"><input checked="checked" data-col="2" data-table="table-7" type="checkbox"/><span>Calidad</span></label><label class="column-toggle"><input checked="checked" data-col="3" data-table="table-7" type="checkbox"/><span>Precio</span></label><label class="column-toggle"><input checked="checked" data-col="4" data-table="table-7" type="checkbox"/><span>Multicolor</span></label><label class="column-toggle"><input checked="checked" data-col="5" data-table="table-7" type="checkbox"/><span>Multimaterial</span></label><label class="column-toggle"><input checked="checked" data-col="6" data-table="table-7" type="checkbox"/><span>Cámara</span></label><label class="column-toggle"><input checked="checked" data-col="7" data-table="table-7" type="checkbox"/><span>Slicer</span></label><label class="column-toggle"><input checked="checked" data-col="8" data-table="table-7" type="checkbox"/><span>Soporte</span></label><label class="column-toggle"><input checked="checked" data-col="9" data-table="table-7" type="checkbox"/><span>Compra AR</span></label><label class="column-toggle"><input checked="checked" data-col="10" data-table="table-7" type="checkbox"/><span>Repuestos</span></label><label class="column-toggle"><input checked="checked" data-col="11" data-table="table-7" type="checkbox"/><span>Reviews</span></label><label class="column-toggle"><input checked="checked" data-col="12" data-table="table-7" type="checkbox"/><span>CF/GF</span></label><label class="column-toggle"><input checked="checked" data-col="13" data-table="table-7" type="checkbox"/><span>Margen futuro</span></label><label class="column-toggle"><input checked="checked" data-col="14" data-table="table-7" type="checkbox"/><span>Total /100</span></label></div></details></div><div aria-label="Tabla desplazable horizontalmente" class="table-scroll" tabindex="0"><table class="data-table compact-identity-table smart-wrap-table" data-columns="15" data-headers='["Alternativa", "Materiales", "Calidad", "Precio", "Multicolor", "Multimaterial", "Cámara", "Slicer", "Soporte", "Compra AR", "Repuestos", "Reviews", "CF/GF", "Margen futuro", "Total /100"]' data-sticky-count="1" id="table-7">
+<thead>
+<tr>
+<th>Alternativa</th>
+<th style="text-align:right">Materiales</th>
+<th style="text-align:right">Calidad</th>
+<th style="text-align:right">Precio</th>
+<th style="text-align:right">Multicolor</th>
+<th style="text-align:right">Multimaterial</th>
+<th style="text-align:right">Cámara</th>
+<th style="text-align:right">Slicer</th>
+<th style="text-align:right">Soporte</th>
+<th style="text-align:right">Compra AR</th>
+<th style="text-align:right">Repuestos</th>
+<th style="text-align:right">Reviews</th>
+<th style="text-align:right">CF/GF</th>
+<th style="text-align:right">Margen futuro</th>
+<th style="text-align:right"><strong>Total /100</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Bambu Lab H2D Combo + AMS</strong></td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">2,5</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4,5</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4,5</td>
+<td style="text-align:right">4,5</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">3,5</td>
+<td style="text-align:right"><strong>88,8</strong></td>
+</tr>
+<tr>
+<td><strong>Bambu Lab H2S Combo + AMS</strong></td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">3,5</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4,5</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4,5</td>
+<td style="text-align:right">4,5</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right"><strong>88,4</strong></td>
+</tr>
+<tr>
+<td><strong>Prusa CORE One+ Gen 2 + INDX 4 Tools</strong></td>
+<td style="text-align:right">4,5</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">4,5</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4,5</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4,5</td>
+<td style="text-align:right">3,5</td>
+<td style="text-align:right">3,5</td>
+<td style="text-align:right"><strong>87,6</strong></td>
+</tr>
+<tr>
+<td><strong>Flashforge Creator 5 Pro</strong></td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">3,5</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">3,5</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right"><strong>87,0</strong></td>
+</tr>
+<tr>
+<td><strong>Prusa CORE One L+ + INDX 4 Tools</strong></td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4,5</td>
+<td style="text-align:right">4,5</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4,5</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4,5</td>
+<td style="text-align:right">3,5</td>
+<td style="text-align:right">3,5</td>
+<td style="text-align:right"><strong>86,5</strong></td>
+</tr>
+<tr>
+<td><strong>QIDI Plus5 + QIDI Box</strong></td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">2,5</td>
+<td style="text-align:right">3,5</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">3</td>
+<td style="text-align:right"><strong>79,3</strong></td>
+</tr>
+<tr>
+<td><strong>Pesos (%)</strong></td>
+<td style="text-align:right"><strong>16</strong></td>
+<td style="text-align:right"><strong>16</strong></td>
+<td style="text-align:right"><strong>17</strong></td>
+<td style="text-align:right"><strong>4</strong></td>
+<td style="text-align:right"><strong>6</strong></td>
+<td style="text-align:right"><strong>7</strong></td>
+<td style="text-align:right"><strong>8</strong></td>
+<td style="text-align:right"><strong>6</strong></td>
+<td style="text-align:right"><strong>5</strong></td>
+<td style="text-align:right"><strong>8</strong></td>
+<td style="text-align:right"><strong>3</strong></td>
+<td style="text-align:right"><strong>2</strong></td>
+<td style="text-align:right"><strong>2</strong></td>
+<td style="text-align:right"><strong>100</strong></td>
+</tr>
+</tbody>
+</table></div></div><blockquote>
+<p>El ranking organiza la comparación. Una diferencia pequeña de puntaje no equivale a una diferencia absoluta de calidad o aptitud.</p>
+</blockquote><hr/></section><section class="doc-section" data-section="12-factibilidad-tecnico-economica"><h1 class="anchored-heading" id="12-factibilidad-tecnico-economica">12. Factibilidad técnico-económica<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="12-factibilidad-tecnico-economica" type="button">#</button></h1><h2 class="anchored-heading" id="12-1-canales-considerados">12.1 Canales considerados<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="12-1-canales-considerados" type="button">#</button></h2><h3 class="anchored-heading" id="bambu-lab">Bambu Lab<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="bambu-lab" type="button">#</button></h3><p>Bambu Lab dispone de <strong>cuatro revendedores oficiales considerados en Argentina</strong>:</p><ul class="feature-grid info-card-grid">
+<li class="info-card"><strong>Ranko S.A</strong></li>
+<li class="info-card"><strong>Proyecto Color</strong></li>
+<li class="info-card"><strong>3DInsumos</strong></li>
+<li class="info-card"><strong>TP3D</strong></li>
+</ul><p>Ranko S.A. se utiliza como <strong>referencia económica de la matriz</strong>, no como único canal disponible. Antes de una compra deben compararse nuevamente los cuatro.</p><h3 class="anchored-heading" id="prusa">Prusa<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="prusa" type="button">#</button></h3><p>Se considera <strong>compra directa al fabricante</strong>.</p><h3 class="anchored-heading" id="qidi">QIDI<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="qidi" type="button">#</button></h3><p>Se considera <strong>compra directa al fabricante</strong>. El costo puesto se estima por ausencia de una cotización final equivalente para Argentina.</p><h3 class="anchored-heading" id="flashforge">Flashforge<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="flashforge" type="button">#</button></h3><p>Se considera compra mediante <strong>Ranko S.A.</strong>, canal indicado para Argentina en el análisis actual.</p><h2 class="anchored-heading" id="12-2-costo-puesto-en-argentina">12.2 Costo puesto en Argentina<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="12-2-costo-puesto-en-argentina" type="button">#</button></h2><p><strong>Valores de referencia al 29/09/2026.</strong></p><div class="table-block" data-table-id="table-8"><div class="table-meta">6 columnas · 6 filas</div><div aria-label="Tabla desplazable horizontalmente" class="table-scroll" tabindex="0"><table class="data-table cost-table compact-identity-table smart-wrap-table two-line-identity-table" data-columns="6" data-headers='["Alternativa", "Precio / configuración", "Shipping", "Tax", "Total puesto en Argentina", "Canal"]' data-sticky-count="1" id="table-8">
+<thead>
+<tr>
+<th>Alternativa</th>
+<th style="text-align:right">Precio / configuración</th>
+<th style="text-align:right">Shipping</th>
+<th style="text-align:right">Tax</th>
+<th style="text-align:right"><strong>Total puesto en Argentina</strong></th>
+<th>Canal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Bambu Lab H2D<br/><span class="identity-subline">Combo + AMS</span></strong></td>
+<td style="text-align:right">Precio local</td>
+<td style="text-align:right">Incluido</td>
+<td style="text-align:right">Incluido</td>
+<td style="text-align:right"><strong>6.330.900 ARS</strong></td>
+<td><a href="https://tienda.ranko.com.ar/producto/bambulab-impresora-3d-h2d-combo/" rel="noopener noreferrer" target="_blank">Ranko S.A. — referencia económica</a></td>
+</tr>
+<tr>
+<td><strong>Bambu Lab H2S<br/><span class="identity-subline">Combo + AMS</span></strong></td>
+<td style="text-align:right">Precio local</td>
+<td style="text-align:right">Incluido</td>
+<td style="text-align:right">Incluido</td>
+<td style="text-align:right"><strong>4.701.900 ARS</strong></td>
+<td><a href="https://tienda.ranko.com.ar/producto/bambulab-impresora-3d-h2s-ams-combo/" rel="noopener noreferrer" target="_blank">Ranko S.A. — referencia económica</a></td>
+</tr>
+<tr>
+<td><strong>Prusa CORE One+ Gen 2<br/><span class="identity-subline">+ INDX 4 Tools</span></strong></td>
+<td style="text-align:right">2.823.200 ARS</td>
+<td style="text-align:right">508.500 ARS</td>
+<td style="text-align:right">523.426,16 ARS</td>
+<td style="text-align:right"><strong>3.855.126,16 ARS</strong></td>
+<td><a href="https://www.prusa3d.com/product/prusa-core-one-gen-2-indx-4-tool-assembly-kit-advanced-filtration-bundle/" rel="noopener noreferrer" target="_blank">Prusa Shop</a></td>
+</tr>
+<tr>
+<td><strong>Prusa CORE One L+<br/><span class="identity-subline">+ INDX 4 Tools</span></strong></td>
+<td style="text-align:right">4.483.700 ARS</td>
+<td style="text-align:right">719.800 ARS</td>
+<td style="text-align:right">817.494,97 ARS</td>
+<td style="text-align:right"><strong>6.020.994,97 ARS</strong></td>
+<td><a href="https://www.prusa3d.com/product/prusa-core-one-l-indx-4-tool-advanced-filtration-bundle/" rel="noopener noreferrer" target="_blank">Prusa Shop</a></td>
+</tr>
+<tr>
+<td><strong>QIDI Plus5<br/><span class="identity-subline">+ QIDI Box</span></strong></td>
+<td style="text-align:right">1.393.450 ARS</td>
+<td style="text-align:right">209.017,50 ARS</td>
+<td style="text-align:right">348.362,50 ARS</td>
+<td style="text-align:right"><strong>1.950.830 ARS</strong></td>
+<td><a href="https://us.qidi3d.com/products/plus5?variant=52902142116160" rel="noopener noreferrer" target="_blank">QIDI Shop</a></td>
+</tr>
+<tr>
+<td><strong>Flashforge<br/><span class="identity-subline">Creator 5 Pro</span></strong></td>
+<td style="text-align:right">Precio local</td>
+<td style="text-align:right">Incluido</td>
+<td style="text-align:right">Incluido</td>
+<td style="text-align:right"><strong>2.151.900 ARS</strong></td>
+<td><a href="https://tienda.ranko.com.ar/producto/impresora-3d-flashforge-creator-5-pro-3d-printer-220v/" rel="noopener noreferrer" target="_blank">Ranko S.A.</a></td>
+</tr>
+</tbody>
+</table></div></div><h2 class="anchored-heading" id="12-3-adecuacion-tecnica-confianza-del-costo-y-fuentes-de-compra">12.3 Adecuación técnica, confianza del costo y fuentes de compra<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="12-3-adecuacion-tecnica-confianza-del-costo-y-fuentes-de-compra" type="button">#</button></h2><h3 class="anchored-heading" id="bambu-lab-h2d-combo-ams">Bambu Lab H2D Combo + AMS<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="bambu-lab-h2d-combo-ams" type="button">#</button></h3><p><strong>Adecuación técnica:</strong> preparada para materiales abrasivos. Para uso frecuente de PCCF resulta recomendable evaluar una boquilla/hotend hardened de 0,6 mm.</p><p><strong>Confianza del costo:</strong> alta para el precio local de referencia.</p><p><strong>Canales relevados:</strong></p><ul class="feature-grid info-card-grid">
+<li class="info-card"><a href="https://tienda.ranko.com.ar/producto/bambulab-impresora-3d-h2d-combo/" rel="noopener noreferrer" target="_blank">Ranko S.A. — H2D Combo</a></li>
+<li class="info-card"><a href="https://proyectocolor.com.ar/productos/bambu-lab-h2d-combo/" rel="noopener noreferrer" target="_blank">Proyecto Color — H2D Combo</a></li>
+<li class="info-card"><a href="https://3dinsumos.com.ar/Producto/Categoria/Impresoras%203D?inicio=13&amp;strDetalleProducto=Bambu+Lab" rel="noopener noreferrer" target="_blank">3DInsumos — catálogo Bambu Lab / H2D</a></li>
+<li class="info-card"><a href="https://tp3d.com.ar/impresoras-fdm/2203-impresora-3d-bambu-lab-h2d-combo.html" rel="noopener noreferrer" target="_blank">TP3D — H2D Combo</a></li>
+</ul><h3 class="anchored-heading" id="bambu-lab-h2s-combo-ams">Bambu Lab H2S Combo + AMS<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="bambu-lab-h2s-combo-ams" type="button">#</button></h3><p><strong>Adecuación técnica:</strong> preparada para materiales abrasivos. Para uso frecuente de PCCF aplica la misma recomendación de 0,6 mm.</p><p><strong>Confianza del costo:</strong> alta para el precio local de referencia.</p><p><strong>Canales relevados:</strong></p><ul class="feature-grid info-card-grid">
+<li class="info-card"><a href="https://tienda.ranko.com.ar/producto/bambulab-impresora-3d-h2s-ams-combo/" rel="noopener noreferrer" target="_blank">Ranko S.A. — H2S Combo</a></li>
+<li class="info-card"><a href="https://proyectocolor.com.ar/productos/bambu-lab-h2s-combo/" rel="noopener noreferrer" target="_blank">Proyecto Color — H2S Combo</a></li>
+<li class="info-card"><a href="https://3dinsumos.com.ar/Producto/3DPrinter-impresoraH2S-AMS-Combo" rel="noopener noreferrer" target="_blank">3DInsumos — H2S Combo</a></li>
+<li class="info-card"><a href="https://tp3d.com.ar/208-h2s" rel="noopener noreferrer" target="_blank">TP3D — categoría H2S</a></li>
+</ul><h3 class="anchored-heading" id="prusa-core-one-gen-2-indx-4-tools">Prusa CORE One+ Gen 2 + INDX 4 Tools<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="prusa-core-one-gen-2-indx-4-tools" type="button">#</button></h3><p><a href="https://www.prusa3d.com/product/prusa-core-one-gen-2-indx-4-tool-assembly-kit-advanced-filtration-bundle/" rel="noopener noreferrer" target="_blank">Configuración oficial</a></p><p><strong>Adecuación técnica:</strong> INDX puede trabajar con PCCF, pero las boquillas actuales presentan una limitación de desgaste para uso abrasivo intensivo.</p><p><strong>Confianza del costo:</strong> alta; checkout oficial para Argentina, sujeto a eventual variación final aduanera.</p><h3 class="anchored-heading" id="prusa-core-one-l-indx-4-tools">Prusa CORE One L+ + INDX 4 Tools<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="prusa-core-one-l-indx-4-tools" type="button">#</button></h3><p><a href="https://www.prusa3d.com/product/prusa-core-one-l-indx-4-tool-advanced-filtration-bundle/" rel="noopener noreferrer" target="_blank">Configuración oficial</a></p><p><strong>Adecuación técnica:</strong> misma cautela de desgaste abrasivo del sistema INDX. La máquina base L+ dispone además de una ruta high-temperature de hasta 400 °C con upgrade específico.</p><p><strong>Confianza del costo:</strong> alta.</p><h3 class="anchored-heading" id="qidi-plus5-qidi-box">QIDI Plus5 + QIDI Box<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="qidi-plus5-qidi-box" type="button">#</button></h3><p><a href="https://us.qidi3d.com/products/plus5?variant=52902142116160" rel="noopener noreferrer" target="_blank">Configuración evaluada</a></p><p><strong>Adecuación técnica:</strong> compatibilidad oficial con CF/GF; para uso intensivo de PCCF conviene verificar una boquilla dedicada.</p><p><strong>Confianza del costo:</strong> media; costo puesto estimado con factor 1,4.</p><h3 class="anchored-heading" id="flashforge-creator-5-pro">Flashforge Creator 5 Pro<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="flashforge-creator-5-pro" type="button">#</button></h3><p><a href="https://tienda.ranko.com.ar/producto/impresora-3d-flashforge-creator-5-pro-3d-printer-220v/" rel="noopener noreferrer" target="_blank">Referencia de compra</a></p><p><strong>Adecuación técnica:</strong> cuatro toolheads independientes y soporte oficial para numerosos materiales reforzados; no se identifica una adaptación obligatoria adicional equivalente a la cautela actual de INDX.</p><p><strong>Confianza del costo:</strong> alta.</p><h2 class="anchored-heading" id="12-4-lectura-economica">12.4 Lectura económica<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="12-4-lectura-economica" type="button">#</button></h2><p>La economía modifica de forma importante la interpretación puramente técnica:</p><ul>
+<li><strong>QIDI Plus5 + QIDI Box</strong> presenta el menor costo estimado, pero la mayor incertidumbre logística y de soporte.</li>
+<li><strong>Flashforge Creator 5 Pro</strong> combina bajo costo local con cuatro toolheads independientes.</li>
+<li><strong>CORE One+ + INDX 4</strong> tiene un costo puesto inferior al precio local de H2S utilizado como referencia, a pesar de incorporar cuatro herramientas independientes.</li>
+<li><strong>CORE One L+ + INDX 4</strong> se mueve prácticamente en el mismo territorio económico que H2D.</li>
+<li><strong>Bambu H2D/H2S</strong> pagan una prima local, pero reducen incertidumbre logística y se apoyan en un ecosistema muy maduro y múltiples canales oficiales en Argentina.</li>
+</ul><p>Los precios deben actualizarse inmediatamente antes de una eventual compra.</p><hr/></section><section class="doc-section" data-section="13-resultados-e-interpretacion"><h1 class="anchored-heading" id="13-resultados-e-interpretacion">13. Resultados e interpretación<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="13-resultados-e-interpretacion" type="button">#</button></h1><h2 class="anchored-heading" id="13-1-bambu-lab-h2d-combo-ams-88-8">13.1 Bambu Lab H2D Combo + AMS — 88,8<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="13-1-bambu-lab-h2d-combo-ams-88-8" type="button">#</button></h2><p>Obtiene el primer lugar por la combinación de:</p><ul class="feature-grid info-card-grid">
+<li class="info-card">Calidad y repetibilidad</li>
+<li class="info-card">Ecosistema maduro</li>
+<li class="info-card">350 °C / 120 °C / cámara activa 65 °C</li>
+<li class="info-card">Dos hotends independientes</li>
+<li class="info-card">AMS</li>
+<li class="info-card">Compra local</li>
+<li class="info-card">Buena disponibilidad local de repuestos reportada</li>
+</ul><p>Su penalización principal es económica.</p><h2 class="anchored-heading" id="13-2-bambu-lab-h2s-combo-ams-88-4">13.2 Bambu Lab H2S Combo + AMS — 88,4<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="13-2-bambu-lab-h2s-combo-ams-88-4" type="button">#</button></h2><p>Queda prácticamente empatada con H2D.</p><p>Conserva:</p><ul class="feature-grid info-card-grid">
+<li class="info-card">Plataforma térmica H2</li>
+<li class="info-card">Calidad</li>
+<li class="info-card">Automatización</li>
+<li class="info-card">Software</li>
+<li class="info-card">Multicolor</li>
+<li class="info-card">Compra local</li>
+</ul><p>con menor inversión.</p><p>La contrapartida es una sola boquilla, por lo que el multimaterial técnico queda más condicionado.</p><h2 class="anchored-heading" id="13-3-prusa-core-one-gen-2-indx-4-tools-87-6">13.3 Prusa CORE One+ Gen 2 + INDX 4 Tools — 87,6<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="13-3-prusa-core-one-gen-2-indx-4-tools-87-6" type="button">#</button></h2><p>Se convierte en una alternativa especialmente relevante cuando se analiza la configuración completa:</p><ul class="feature-grid info-card-grid">
+<li class="info-card">Cuatro herramientas independientes</li>
+<li class="info-card">Excelente mantenibilidad</li>
+<li class="info-card">Soporte y repuestos Prusa</li>
+<li class="info-card">Ecosistema maduro</li>
+<li class="info-card">Costo puesto competitivo</li>
+</ul><p>Sus incertidumbres principales son la juventud de INDX y el desgaste actual de sus boquillas con composites abrasivos.</p><h2 class="anchored-heading" id="13-4-alternativas-proximas">13.4 Alternativas próximas<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="13-4-alternativas-proximas" type="button">#</button></h2><h3 class="anchored-heading" id="flashforge-creator-5-pro-87-0">Flashforge Creator 5 Pro — 87,0<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="flashforge-creator-5-pro-87-0" type="button">#</button></h3><p>Muy próxima al Top 3. Destaca por cuatro herramientas independientes desde fábrica y precio local competitivo; cede en ecosistema, soporte y repuestos.</p><h3 class="anchored-heading" id="prusa-core-one-l-indx-4-tools-86-5">Prusa CORE One L+ + INDX 4 Tools — 86,5<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="prusa-core-one-l-indx-4-tools-86-5" type="button">#</button></h3><p>Aporta más volumen y mejor capacidad térmica que CORE One+, pero el costo entra en territorio H2D.</p><h3 class="anchored-heading" id="qidi-plus5-qidi-box-79-3">QIDI Plus5 + QIDI Box — 79,3<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="qidi-plus5-qidi-box-79-3" type="button">#</button></h3><p>Maximiza capacidad térmica por costo, pero presenta mayor dependencia de importación, menor soporte y menor disponibilidad de repuestos en Argentina.</p><h2 class="anchored-heading" id="13-5-margen-futuro">13.5 Margen futuro<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="13-5-margen-futuro" type="button">#</button></h2><p>Las configuraciones evaluadas ya cubren el máximo práctico de <strong>cuatro filamentos</strong> identificado para Intelektron.</p><p>Expansiones como más AMS, INDX 8 o más sistemas Box tienen actualmente valor operativo limitado. La columna se conserva porque puede adquirir otra importancia si dirección redefine prioridades.</p><hr/></section><section class="doc-section" data-section="14-conclusiones"><h1 class="anchored-heading" id="14-conclusiones">14. Conclusiones<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="14-conclusiones" type="button">#</button></h1><p>El estudio parte de 20 materiales y 10 impresoras y reduce el problema a <strong>tres alternativas especialmente bien posicionadas</strong>, cada una con un perfil diferente.</p><h2 class="anchored-heading" id="14-1-bambu-lab-h2d-combo-ams">14.1 Bambu Lab H2D Combo + AMS<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="14-1-bambu-lab-h2d-combo-ams" type="button">#</button></h2><p><strong>Fortaleza central:</strong> máxima integración y flexibilidad multimaterial.</p><p>Aporta:</p><ul class="feature-grid info-card-grid">
+<li class="info-card">Plataforma térmica apta para materiales técnicos</li>
+<li class="info-card">Dos hotends independientes</li>
+<li class="info-card">Excelente ecosistema</li>
+<li class="info-card">Automatización</li>
+<li class="info-card">Compra local</li>
+<li class="info-card">Varios canales oficiales en Argentina</li>
+</ul><p>Su principal contrapartida es el costo.</p><h2 class="anchored-heading" id="14-2-bambu-lab-h2s-combo-ams">14.2 Bambu Lab H2S Combo + AMS<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="14-2-bambu-lab-h2s-combo-ams" type="button">#</button></h2><p><strong>Fortaleza central:</strong> conservar la experiencia Bambu reduciendo inversión.</p><p>Aporta:</p><ul class="feature-grid info-card-grid">
+<li class="info-card">Misma lógica térmica H2</li>
+<li class="info-card">Calidad</li>
+<li class="info-card">Software</li>
+<li class="info-card">Automatización</li>
+<li class="info-card">AMS</li>
+<li class="info-card">Compra local</li>
+</ul><p>Su principal renuncia frente a H2D es la segunda boquilla.</p><h2 class="anchored-heading" id="14-3-prusa-core-one-gen-2-indx-4-tools">14.3 Prusa CORE One+ Gen 2 + INDX 4 Tools<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="14-3-prusa-core-one-gen-2-indx-4-tools" type="button">#</button></h2><p><strong>Fortaleza central:</strong> cuatro herramientas independientes, mantenibilidad y costo puesto competitivo.</p><p>Aporta:</p><ul class="feature-grid info-card-grid">
+<li class="info-card">Arquitectura multimaterial real</li>
+<li class="info-card">Soporte y repuestos Prusa</li>
+<li class="info-card">PrusaSlicer</li>
+<li class="info-card">Reparabilidad</li>
+<li class="info-card">Compra directa</li>
+</ul><p>La principal cautela es la madurez de INDX y la durabilidad actual de sus boquillas con abrasivos.</p><h2 class="anchored-heading" id="14-4-verificacion-final-contra-los-tres-materiales-prioritarios">14.4 Verificación final contra los tres materiales prioritarios<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="14-4-verificacion-final-contra-los-tres-materiales-prioritarios" type="button">#</button></h2><p>El cierre del estudio vuelve a la pregunta original: <strong>¿las tres mejores alternativas cubren los materiales que dieron origen a los requisitos?</strong></p><div class="table-block" data-table-id="table-9"><div class="table-meta">5 columnas · 3 filas</div><div aria-label="Tabla desplazable horizontalmente" class="table-scroll" tabindex="0"><table class="data-table smart-wrap-table compatibility-table" data-columns="5" data-headers='["Top 3", "Prusament ASA", "Prusament PCCF", "PrintaLot PC", "Observación"]' data-sticky-count="1" id="table-9">
+<thead>
+<tr>
+<th>Top 3</th>
+<th style="text-align:right">Prusament ASA</th>
+<th style="text-align:right">Prusament PCCF</th>
+<th style="text-align:right">PrintaLot PC</th>
+<th>Observación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Bambu Lab H2D<br/><span class="identity-subline">Combo + AMS</span></strong></td>
+<td style="text-align:right"><strong>5</strong></td>
+<td style="text-align:right"><strong>5</strong></td>
+<td style="text-align:right"><strong>5</strong></td>
+<td>Cobertura completa; para PCCF intensivo resulta recomendable considerar 0,6 mm hardened</td>
+</tr>
+<tr>
+<td><strong>Bambu Lab H2S<br/><span class="identity-subline">Combo + AMS</span></strong></td>
+<td style="text-align:right"><strong>5</strong></td>
+<td style="text-align:right"><strong>5</strong></td>
+<td style="text-align:right"><strong>5</strong></td>
+<td>Misma cobertura material; su limitación principal está en multimaterial, no en compatibilidad de materiales</td>
+</tr>
+<tr>
+<td><strong>Prusa CORE One+ Gen 2<br/><span class="identity-subline">+ INDX 4 Tools</span></strong></td>
+<td style="text-align:right"><strong>5</strong></td>
+<td style="text-align:right"><strong>4</strong></td>
+<td style="text-align:right"><strong>5</strong></td>
+<td>ASA y PC cubiertos; PCCF viable, con cautela por desgaste de las boquillas INDX actuales</td>
+</tr>
+</tbody>
+</table></div></div><p>Esta verificación confirma que el Top 3 no aparece únicamente por efecto de la ponderación: <strong>las tres configuraciones son compatibles con el núcleo material que originó el estudio</strong>.</p><p>La diferencia entre ellas se desplaza entonces hacia otros factores:</p><ul class="feature-grid info-card-grid">
+<li class="info-card"><strong>H2D:</strong> integración y multimaterial independiente</li>
+<li class="info-card"><strong>H2S:</strong> ecosistema Bambu con menor inversión</li>
+<li class="info-card"><strong>CORE One+ + INDX 4:</strong> cuatro herramientas, mantenibilidad y costo competitivo</li>
+</ul><p>El informe no establece una orden automática de compra. Su función es reducir la incertidumbre y dejar explícitos los compromisos para una eventual decisión de dirección.</p><hr/></section><section class="doc-section" data-section="15-consideraciones-previas-a-una-eventual-adquisicion"><h1 class="anchored-heading" id="15-consideraciones-previas-a-una-eventual-adquisicion">15. Consideraciones previas a una eventual adquisición<button aria-label="Copiar enlace a esta sección" class="copy-anchor" data-anchor="15-consideraciones-previas-a-una-eventual-adquisicion" type="button">#</button></h1><p>Antes de emitir una orden se recomienda:</p><ol>
+<li>actualizar todos los precios a una misma fecha;</li>
+<li>comparar nuevamente <strong>Ranko S.A., Proyecto Color, 3DInsumos y TP3D</strong> para Bambu;</li>
+<li>confirmar checkout final de Prusa;</li>
+<li>validar shipping e impuestos reales de QIDI;</li>
+<li>confirmar stock, garantía y repuestos de Creator 5 Pro;</li>
+<li>confirmar la solución exacta de boquilla/hotend para PCCF;</li>
+<li>revisar el estado de firmware/software de INDX, QIDI Box y Creator 5 Pro;</li>
+<li>recalcular la matriz con datos económicos vigentes.</li>
+</ol><hr/></section></div>
+</article>
+</main>
+<button aria-label="Volver arriba" class="to-top" id="toTop" type="button">↑</button>
+<div aria-live="polite" class="toast" id="toast" role="status"></div>
+<!-- REFERENCIA INTERNA NO RENDERIZADA — Secciones 16 y 17 conservadas para mantenimiento futuro.
+# 16. Fuentes técnicas principales de la matriz de 10 impresoras
+
+- Bambu Lab H2D: https://cdn1.bambulab.com/documentation/h2d/en/H2D_Laser_Full_Combo_20250305.pdf
+- Bambu Lab H2S: https://www.bambulab.com/en/h2s
+- Prusa CORE One+: https://www.prusa3d.com/core-one/
+- Prusa CORE One L+: https://www.prusa3d.com/product/prusa-core-one-l/
+- QIDI Plus5: https://qidi3d.com/products/plus5
+- QIDI Max4: https://qidi3d.com/products/max4
+- Creality K2 Plus Combo: https://www.creality.com/products/creality-k2-plus-cfs-combo
+- Anycubic Kobra S1 Max Combo: https://store.anycubic.com/collections/fdm-printer/products/kobra-s1-max-combo
+- Flashforge Creator 5 Pro: https://www.flashforge.com/products/flashforge-creator-5-pro
+- Raise3D E3: https://www.raise3d.com/e3/
+
+- --
+
+# 17. Uso del informe
+
+Este **Informe Detallado** debe utilizarse junto con la **matriz editable**, que funciona como herramienta viva para:
+
+- modificar pesos;
+- actualizar precios;
+- ajustar puntajes;
+- revisar escenarios con dirección;
+- recalcular resultados.
+
+El documento **Evaluacion-Impresora-3D-Materiales-Tecnicos-Ejecutivo** debe derivarse de esta base, reduciendo el nivel de detalle sin alterar los criterios maestros, resultados ni conclusiones.
+FIN REFERENCIA INTERNA -->
+<script>
+(() => {
+  const root = document.documentElement;
+  const $ = (s,ctx=document) => ctx.querySelector(s);
+  const $$ = (s,ctx=document) => [...ctx.querySelectorAll(s)];
+  const toast = msg => { const t=$('#toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1400); };
+
+  // Safe preference storage: works on hosted pages and degrades gracefully when local files restrict storage.
+  const store={
+    get(k){try{return window.localStorage.getItem(k)}catch{return null}},
+    set(k,v){try{window.localStorage.setItem(k,v)}catch{}}
+  };
+
+  // Theme ------------------------------------------------------------------
+  const themeKey='intelektron-report-theme';
+  const saved=store.get(themeKey);
+  const sysDark=matchMedia('(prefers-color-scheme: dark)').matches;
+  root.dataset.theme=saved || (sysDark?'dark':'light');
+  const themeBtn=$('#themeToggle');
+  const syncTheme=()=>{ themeBtn.textContent=root.dataset.theme==='dark'?'☀':'◐'; themeBtn.setAttribute('aria-label',root.dataset.theme==='dark'?'Usar modo claro':'Usar modo oscuro'); };
+  syncTheme();
+  themeBtn.addEventListener('click',()=>{ root.dataset.theme=root.dataset.theme==='dark'?'light':'dark'; store.set(themeKey,root.dataset.theme); syncTheme(); });
+
+  // Mobile nav --------------------------------------------------------------
+  const sidebar=$('#sidebar');
+  $('#menuToggle').addEventListener('click',()=>sidebar.classList.toggle('open'));
+  $$('.nav-link').forEach(a=>a.addEventListener('click',()=>sidebar.classList.remove('open')));
+
+  // Reading progress / top button -----------------------------------------
+  const progress=$('#progress'), topBtn=$('#toTop');
+  const onScroll=()=>{ const max=document.documentElement.scrollHeight-innerHeight; const pct=max>0?scrollY/max*100:0; progress.style.width=pct+'%'; topBtn.classList.toggle('show',scrollY>700); };
+  addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  topBtn.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+
+  // Active navigation ------------------------------------------------------
+  const sections=$$('.doc-section');
+  const navMap=new Map($$('.nav-link').map(a=>[a.dataset.target,a]));
+  const io=new IntersectionObserver(entries=>{ entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio).slice(0,1).forEach(e=>{ $$('.nav-link').forEach(x=>x.classList.remove('active')); const n=navMap.get(e.target.dataset.section); if(n) n.classList.add('active'); }); },{rootMargin:'-20% 0px -68% 0px',threshold:[0,.2,.5]});
+  sections.forEach(s=>io.observe(s));
+
+  // Copy section anchors ---------------------------------------------------
+  $$('.copy-anchor').forEach(btn=>btn.addEventListener('click',async e=>{ e.preventDefault(); e.stopPropagation(); const url=location.href.split('#')[0]+'#'+btn.dataset.anchor; try{await navigator.clipboard.writeText(url); toast('Enlace copiado');}catch{location.hash=btn.dataset.anchor;} }));
+
+  // Table behavior ---------------------------------------------------------
+  const keywords={
+    essential:['#','fabricante','material','plataforma','alternativa','puntaje','total','costo','precio','mecánica','uv','térmica','cámara','diferencial','observación'],
+    process:['#','fabricante','material','plataforma','hotend','heatbed','cama','cámara','extrusión','secado','abrasiv','cf/gf','volumen'],
+    properties:['#','fabricante','material','mecánica','uv','térmica','química','desgaste','colores','facilidad','características'],
+    procurement:['#','fabricante','material','alternativa','canal','presentación','procura','compra','precio','costo','shipping','tax','total','confianza']
+  };
+  function headers(table){ try{return JSON.parse(table.dataset.headers||'[]')}catch{return []} }
+  function applySticky(table){
+    const count=Number(table.dataset.stickyCount||1); const rows=$$('tr',table);
+    rows.forEach(row=>{ let left=0; const cells=[...row.children].filter(c=>c.dataset.hidden!=='true'); cells.forEach((cell,visibleIdx)=>{cell.classList.remove('sticky-col','sticky-divider');cell.style.left='';});
+      let logical=0;
+      [...row.children].forEach((cell,idx)=>{ if(cell.dataset.hidden==='true') return; if(idx<count){cell.classList.add('sticky-col');cell.style.left=left+'px'; left += cell.getBoundingClientRect().width; if(idx===count-1)cell.classList.add('sticky-divider');} logical++; });
+    });
+  }
+  function setColumns(table, visible, persist=true){
+    const rows=$$('tr',table); rows.forEach(row=>[...row.children].forEach((cell,i)=>cell.dataset.hidden=visible.has(i)?'false':'true'));
+    const id=table.id; $(`.table-toolbar[data-for="${id}"]`)?.querySelectorAll('.column-toggle input').forEach(inp=>{ inp.checked=visible.has(Number(inp.dataset.col)); });
+    if(persist)store.set('cols:'+id,JSON.stringify([...visible]));
+    requestAnimationFrame(()=>applySticky(table));
+  }
+  function presetSet(table,key){ const hs=headers(table); const sticky=Number(table.dataset.stickyCount||1); if(key==='all')return new Set(hs.map((_,i)=>i)); const ks=keywords[key]||[]; const out=new Set(); hs.forEach((h,i)=>{const l=h.toLowerCase(); if(i<sticky || ks.some(k=>l.includes(k)))out.add(i)}); if(out.size<Math.min(4,hs.length)){hs.forEach((_,i)=>{if(i<Math.min(6,hs.length))out.add(i)})} return out; }
+  $$('.data-table').forEach(table=>{
+    const n=headers(table).length; if(n<8){requestAnimationFrame(()=>applySticky(table));return;}
+    const savedCols=store.get('cols:'+table.id); let initial;
+    if(savedCols){try{initial=new Set(JSON.parse(savedCols))}catch{}}
+    if(!initial) initial = innerWidth<700 ? presetSet(table,'essential') : presetSet(table,'all');
+    setColumns(table,initial,false);
+    const toolbar=$(`.table-toolbar[data-for="${table.id}"]`);
+    $$('.preset-btn',toolbar).forEach(b=>b.addEventListener('click',()=>{ const vis=presetSet(table,b.dataset.preset); setColumns(table,vis); $$('.preset-btn',toolbar).forEach(x=>x.classList.toggle('active',x===b)); }));
+    $$('.column-toggle input',toolbar).forEach(inp=>inp.addEventListener('change',()=>{ const current=new Set(); $$('.column-toggle input',toolbar).forEach(x=>{if(x.checked)current.add(Number(x.dataset.col))}); setColumns(table,current); $$('.preset-btn',toolbar).forEach(x=>x.classList.remove('active')); }));
+    const currentAll=initial.size===n; const target=currentAll?'all':(innerWidth<700?'essential':''); if(target){const b=$(`.preset-btn[data-preset="${target}"]`,toolbar); if(b)b.classList.add('active');}
+    addEventListener('resize',()=>requestAnimationFrame(()=>applySticky(table)),{passive:true});
+  });
+
+  // Search -----------------------------------------------------------------
+  const search=$('#search'), results=$('#searchResults');
+  const searchable=sections.map(sec=>({id:sec.dataset.section, title:sec.querySelector('h1')?.childNodes[0]?.textContent?.trim()||'', text:sec.innerText.toLowerCase()}));
+  function showSearch(){ const q=search.value.trim().toLowerCase(); results.innerHTML=''; if(q.length<2){results.classList.remove('open');return;} const hits=searchable.filter(x=>x.text.includes(q)).slice(0,10); if(!hits.length){results.innerHTML='<div class="search-hit">Sin coincidencias</div>';} else hits.forEach(h=>{const a=document.createElement('a');a.className='search-hit';a.href='#'+h.id;a.innerHTML=`<strong>${h.title}</strong>Coincidencia en esta sección`;a.addEventListener('click',()=>{results.classList.remove('open');search.blur()});results.appendChild(a)}); results.classList.add('open'); }
+  search.addEventListener('input',showSearch); search.addEventListener('focus',showSearch); document.addEventListener('click',e=>{if(!e.target.closest('.search-wrap'))results.classList.remove('open')});
+  document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();search.focus();search.select()} if(e.key==='Escape'){results.classList.remove('open');search.blur();sidebar.classList.remove('open')}});
+})();
+</script>
+</body>
+</html>
